@@ -1,6 +1,7 @@
 ﻿using client.Common;
 using client.Requests;
 using client.Results;
+using client.View;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,21 +19,26 @@ namespace client.ViewModel
     {
         private string _login;
         private string _password;
-        private readonly Frame MainFrame;
+        private bool _rememberMe;
+        private readonly Frame _mainFrame;
         private readonly string _baseServerAdress;
         private static readonly HttpClient client = new HttpClient();
+        private IConfiguration configuration;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand LoginCommand { get; }
 
-        public UserLoginAndRegistrationPageVM(Frame MainFrame)
+        public UserLoginAndRegistrationPageVM(Frame mainFrame)
         {
-            this.MainFrame = MainFrame;
+            configuration = App.Instance.Configuration;
+            _mainFrame = mainFrame;
             LoginCommand = new RelayCommand(Authorize);
-            var appSettings = App.Instance.Configuration;
-            _baseServerAdress = appSettings.GetValue<string>("HttpsBaseServerAdress");
+            _baseServerAdress = configuration.GetValue<string>("HttpsBaseServerAdress");
+            _login = configuration.GetValue<string>("LastEmployeeLogin");
+            _password = configuration.GetValue<string>("LastEmployeePassword");
             client.BaseAddress = new Uri(_baseServerAdress);
+            RememberMe = true;
         }
 
         public string Login
@@ -55,6 +61,16 @@ namespace client.ViewModel
             }
         }
 
+        public bool RememberMe
+        {
+            get { return _rememberMe; }
+            set
+            {
+                _rememberMe = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RememberMe)));
+            }
+        }
+
         private async void Authorize(object parameter)
         {
             var loginRequest = new LoginRequest
@@ -74,7 +90,41 @@ namespace client.ViewModel
 
                     if (result.Success == true)
                     {
-                        //переход к окну профиля
+                        var writeTokenToAppSettingsClass = new WriteTokenToAppSettingsClass();
+                        writeTokenToAppSettingsClass.WriteToken(result.Token);
+
+                        var employeeToken = configuration.GetValue<string>("EmployeeToken");
+                        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", employeeToken);
+
+                        var getEmployeeResponseBylogin = await client.GetAsync($"/api/auth/getEmployeeByLogin/{result.Login}");
+
+                        if (getEmployeeResponseBylogin.IsSuccessStatusCode)
+                        {
+                            string getEmployeeResponseByloginContent = await getEmployeeResponseBylogin.Content.ReadAsStringAsync();
+                            var getEmployeeResponseByloginResult = JsonConvert.DeserializeObject<GetEmployeeByLoginResult>(responseContent);
+
+                            if (getEmployeeResponseByloginResult.Success == true)
+                            {
+                                if (_rememberMe == true)
+                                {
+                                    writeTokenToAppSettingsClass.WriteLoginAndPassword(_login, _password);
+                                }
+                                else
+                                {
+                                    writeTokenToAppSettingsClass.ClearLoginAndPassWord();
+                                }
+
+                                _mainFrame.Content = new MainEmployeeMenu(getEmployeeResponseByloginResult.Employee, _mainFrame);
+                            }
+                            else
+                            {
+                                MessageBox.Show(getEmployeeResponseByloginResult.Errors[0]);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка при попытке подключения к серверу...", "Ошибка соединения", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                     else
                     {

@@ -84,6 +84,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
@@ -161,14 +162,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\WriteTokenToAppSettingsClass.cs" />
     <Compile Include="Model\Address.cs" />
+    <Compile Include="Model\AppSettings.cs" />
+    <Compile Include="Model\Employee.cs" />
     <Compile Include="Requests\LoginRequest.cs" />
     <Compile Include="Results\AuthResult.cs" />
     <Compile Include="Results\BaseResult.cs" />
     <Compile Include="Results\GetAllAddressesResult.cs" />
+    <Compile Include="Results\GetEmployeeByLoginResult.cs" />
+    <Compile Include="ViewModel\MainEmployeeMenuVM.cs" />
     <Compile Include="ViewModel\UserLoginAndRegistrationPageVM.cs" />
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainEmployeeMenu.xaml.cs">
+      <DependentUpon>MainEmployeeMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -187,6 +196,10 @@
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
     <Page Include="View\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainEmployeeMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -224,7 +237,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Resource Include="View\Img\employeeMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employeeMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Img\getBack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
