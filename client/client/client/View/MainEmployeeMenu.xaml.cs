@@ -25,7 +25,8 @@ namespace client.View
         public MainEmployeeMenu(Employee employee, Frame MainFrame)
         {
             InitializeComponent();
-            DataContext = new MainEmployeeMenuVM(employee, MainFrame);
+            var nav = NavigationService.GetNavigationService(MainMenuFrame);
+            DataContext = new MainEmployeeMenuVM(employee, MainFrame, MainMenuFrame);
         }
     }
 }

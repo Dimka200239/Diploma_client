@@ -71,6 +71,9 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -164,15 +167,37 @@
     </ApplicationDefinition>
     <Compile Include="Common\WriteTokenToAppSettingsClass.cs" />
     <Compile Include="Model\Address.cs" />
+    <Compile Include="Model\AdultPatient.cs" />
     <Compile Include="Model\AppSettings.cs" />
     <Compile Include="Model\Employee.cs" />
+    <Compile Include="Model\Gender.cs" />
+    <Compile Include="Model\Passport.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Requests\CreateAddressRequest.cs" />
+    <Compile Include="Requests\CreateAdultPatientRequest.cs" />
+    <Compile Include="Requests\CreatePassportRequest.cs" />
     <Compile Include="Requests\LoginRequest.cs" />
     <Compile Include="Results\AuthResult.cs" />
     <Compile Include="Results\BaseResult.cs" />
+    <Compile Include="Results\CreateAddressResult.cs" />
+    <Compile Include="Results\CreateAdultPatientResult.cs" />
+    <Compile Include="Results\CreatePassportResult.cs" />
     <Compile Include="Results\GetAllAddressesResult.cs" />
     <Compile Include="Results\GetEmployeeByLoginResult.cs" />
+    <Compile Include="ViewModel\AddNewAddressVM.cs" />
+    <Compile Include="ViewModel\AddNewPatientVM.cs" />
+    <Compile Include="ViewModel\FindPatientVM.cs" />
     <Compile Include="ViewModel\MainEmployeeMenuVM.cs" />
     <Compile Include="ViewModel\UserLoginAndRegistrationPageVM.cs" />
+    <Compile Include="View\AddNewAddressView.xaml.cs">
+      <DependentUpon>AddNewAddressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddNewPatientView.xaml.cs">
+      <DependentUpon>AddNewPatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FindPatientView.xaml.cs">
+      <DependentUpon>FindPatientView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -195,6 +220,18 @@
     <Compile Include="Components\BindablePasswordBox.xaml.cs">
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\AddNewAddressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddNewPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FindPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
