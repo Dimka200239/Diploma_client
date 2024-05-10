@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace client.Model
 {
@@ -27,6 +28,12 @@ namespace client.Model
         [Required]
         public string Role { get; set; } //Роль пользователя
 
-        public string GetFullName => Name + " " + LastName + " " + MiddleName + " ";
+        public Passport Passport { get; set; }
+        public ICollection<Address> Addresses { get; set; }
+        public ICollection<AnthropometryOfPatient> AnthropometryOfPatients { get; set; }
+        public ICollection<Lifestyle> Lifestyles { get; set; }
+        public ICollection<BloodAnalysis> BloodAnalysises { get; set; }
+
+        public string GetFullName => LastName + " " + Name + " " + MiddleName + " ";
     }
 }

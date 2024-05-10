@@ -218,7 +218,8 @@
             Grid.RowSpan="11"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Style="{StaticResource DimmableStyle}">
+            Style="{StaticResource DimmableStyle}"
+            PreviewMouseDown="Grid_PreviewMouseDown">
             <Frame
                 x:Name="MainMenuFrame"
                 NavigationUIVisibility="Hidden">

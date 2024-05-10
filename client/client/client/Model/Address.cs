@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Xml.Linq;
 
 namespace client.Model
 {
@@ -20,5 +21,7 @@ namespace client.Model
         public int House { get; set; }
         public int? Apartment { get; set; }
         public DateTime DateOfChange { get; set; }
+
+        public string GetFullAddress => City + ", ул. " + Street + ", д. " + House;
     }
 }

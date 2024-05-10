@@ -1,15 +1,13 @@
-﻿<Page x:Class="client.View.FindPatientView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:c="clr-namespace:client.Components"
-      xmlns:local="clr-namespace:client.View"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="FindPatientView">
+﻿<UserControl x:Class="client.Components.PatientElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:client.Components"
+             mc:Ignorable="d" 
+             d:Height="175" d:MinWidth="653">
 
-    <Page.Resources>
+    <UserControl.Resources>
         <Style TargetType="Button" x:Key="BoardInteraction" >
             <Style.Setters>
                 <Setter Property="BorderBrush" Value="Silver" />
@@ -114,79 +112,88 @@
             <Style.Setters>
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="FontSize" Value="14" />
-                <Setter Property="Margin" Value="0 10 0 10" />
+                <Setter Property="Margin" Value="5 5 5 5" />
                 <Setter Property="Padding" Value="3 0 0 0" />
             </Style.Setters>
         </Style>
-    </Page.Resources>
-
+    </UserControl.Resources>
+    
     <Grid
-        Background="White">
+        Background="White"
+        Margin="0 0 0 10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0px"/>
-            <RowDefinition Height="40px"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="45px"/>
-            <RowDefinition Height="45px"/>
+            <RowDefinition Height="35px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="30px"/>
             <RowDefinition Height="5px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10px"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10px"/>
             <ColumnDefinition Width="125px"/>
-            <ColumnDefinition Width="2px"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Background="#e7e7e7">
+            
+        </Grid>
+        <TextBlock
+            Text="ФИО:"
+            Grid.Row="0"
+            Grid.Column="0"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Адрес:"
+            Grid.Row="1"
+            Grid.Column="0"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Дата рождения:"
+            Grid.Row="2"
+            Grid.Column="0"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Пол:"
+            Grid.Row="3"
+            Grid.Column="0"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="105px"
+            Height="30px"
+            Content="Перейти"
+            Margin="0 0 5 0"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding GoToPatientProfileCommand}"/>
         <TextBox
-            x:Name="searchTextBox"
+            Grid.Row="0"
+            Grid.Column="1"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding FIO, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
             Grid.Row="1"
             Grid.Column="1"
+            IsEnabled="False"
             Style="{StaticResource TextBoxStyle}"
-            Margin="0 1 0 10"
-            Text="{Binding SearchPatientText, UpdateSourceTrigger=PropertyChanged}"
-            PreviewKeyDown="TextBox_PreviewKeyDown"/>
-        <Button Template="{DynamicResource RoundedButtonStyle}"
-            Grid.Row="1"
-            Grid.Column="3"
-            Content="Найти"
-            Margin="10 1 10 10"
-            Style="{StaticResource LoginAndRegButtonStyle}"
-            Command="{Binding SearchPatientCommand}"/>
-        <Button Template="{DynamicResource RoundedButtonStyle}"
-            Grid.Row="3"
-            Grid.Column="3"
-            Margin="2 2 2 6"
-            Style="{StaticResource LoginAndRegButtonStyle}"
-            Command="{Binding SearchPatientByPassportCommand}">
-            <TextBlock Text="Поиск по паспорту" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="125" />
-        </Button>
-        <Button Template="{DynamicResource RoundedButtonStyle}"
-            Grid.Row="4"
-            Grid.Column="3"
-            Margin="2 2 2 6"
-            Style="{StaticResource LoginAndRegButtonStyle}"
-            Command="{Binding AddNewPatientCommand}">
-                <TextBlock Text="Добавить нового пациента" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="125" />
-        </Button>
-        <Grid
+            Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
             Grid.Row="2"
             Grid.Column="1"
-            Grid.RowSpan="3">
-            <ScrollViewer
-                VerticalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{Binding ItemsList}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <c:PatientElement/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Grid>
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
-</Page>
+</UserControl>

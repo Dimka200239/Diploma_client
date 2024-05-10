@@ -28,7 +28,7 @@ namespace client.ViewModel
         private string _apartment;
 
         private readonly string _baseServerAdress;
-        private static readonly HttpClient client = new HttpClient();
+        private static HttpClient client;
         private IConfiguration configuration;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -37,6 +37,8 @@ namespace client.ViewModel
 
         public AddNewAddressVM(AdultPatient adultPatient, Passport passport, Frame mainMenuFrame)
         {
+            client = new HttpClient();
+
             configuration = App.Instance.Configuration;
 
             _adultPatient = adultPatient;
@@ -171,19 +173,19 @@ namespace client.ViewModel
                                             }
                                             else
                                             {
-                                                MessageBox.Show(createPassportResult.Errors[0]);
+                                                MessageBox.Show(createAddressResult.Errors[0], "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        MessageBox.Show(createPassportResult.Errors[0]);
+                                        MessageBox.Show(createPassportResult.Errors[0], "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                                     }
                                 }
                             }
                             else
                             {
-                                MessageBox.Show(createAdultPatientResult.Errors[0]);
+                                MessageBox.Show(createAdultPatientResult.Errors[0], "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                         }
                     }

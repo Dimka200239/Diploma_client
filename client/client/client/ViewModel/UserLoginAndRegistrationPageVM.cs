@@ -22,7 +22,7 @@ namespace client.ViewModel
         private bool _rememberMe;
         private readonly Frame _mainFrame;
         private readonly string _baseServerAdress;
-        private static readonly HttpClient client = new HttpClient();
+        private static HttpClient client;
         private IConfiguration configuration;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -31,6 +31,8 @@ namespace client.ViewModel
 
         public UserLoginAndRegistrationPageVM(Frame mainFrame)
         {
+            client = new HttpClient();
+
             configuration = App.Instance.Configuration;
             _mainFrame = mainFrame;
             LoginCommand = new RelayCommand(Authorize);

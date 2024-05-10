@@ -54,6 +54,11 @@ namespace client.View
             {
                 PopupCalendar.IsOpen = false;
             }
+
+            if (PassDatePopupCalendar.IsOpen && !PassDatePopupCalendar.IsMouseOver)
+            {
+                PassDatePopupCalendar.IsOpen = false;
+            }
         }
 
         private void MyTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)

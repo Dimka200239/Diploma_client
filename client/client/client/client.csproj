@@ -166,26 +166,38 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\WriteTokenToAppSettingsClass.cs" />
+    <Compile Include="Components\PatientElement.xaml.cs">
+      <DependentUpon>PatientElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\PatientElementVM.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\AdultPatient.cs" />
+    <Compile Include="Model\AnthropometryOfPatient.cs" />
     <Compile Include="Model\AppSettings.cs" />
+    <Compile Include="Model\BloodAnalysis.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\Gender.cs" />
+    <Compile Include="Model\Lifestyle.cs" />
     <Compile Include="Model\Passport.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="Requests\CreateAddressRequest.cs" />
     <Compile Include="Requests\CreateAdultPatientRequest.cs" />
     <Compile Include="Requests\CreatePassportRequest.cs" />
+    <Compile Include="Requests\GetAdultPatientByNameRequest.cs" />
+    <Compile Include="Requests\GetAdultPatientByPassportRequest.cs" />
     <Compile Include="Requests\LoginRequest.cs" />
     <Compile Include="Results\AuthResult.cs" />
     <Compile Include="Results\BaseResult.cs" />
     <Compile Include="Results\CreateAddressResult.cs" />
     <Compile Include="Results\CreateAdultPatientResult.cs" />
     <Compile Include="Results\CreatePassportResult.cs" />
+    <Compile Include="Results\GetAdultPatientByPassportResult.cs" />
     <Compile Include="Results\GetAllAddressesResult.cs" />
     <Compile Include="Results\GetEmployeeByLoginResult.cs" />
+    <Compile Include="Results\GetAdultPatientByNameResult.cs" />
     <Compile Include="ViewModel\AddNewAddressVM.cs" />
     <Compile Include="ViewModel\AddNewPatientVM.cs" />
+    <Compile Include="ViewModel\FindPatientByPassportVM.cs" />
     <Compile Include="ViewModel\FindPatientVM.cs" />
     <Compile Include="ViewModel\MainEmployeeMenuVM.cs" />
     <Compile Include="ViewModel\UserLoginAndRegistrationPageVM.cs" />
@@ -194,6 +206,9 @@
     </Compile>
     <Compile Include="View\AddNewPatientView.xaml.cs">
       <DependentUpon>AddNewPatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FindPatientByPassportView.xaml.cs">
+      <DependentUpon>FindPatientByPassportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FindPatientView.xaml.cs">
       <DependentUpon>FindPatientView.xaml</DependentUpon>
@@ -220,11 +235,19 @@
     <Compile Include="Components\BindablePasswordBox.xaml.cs">
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
+    <Page Include="Components\PatientElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddNewAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddNewPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FindPatientByPassportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,13 +1,13 @@
-﻿<Page x:Class="client.View.FindPatientView"
+﻿<Page x:Class="client.View.FindPatientByPassportView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:c="clr-namespace:client.Components"
       xmlns:local="clr-namespace:client.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="FindPatientView">
+      Title="FindPatientByPassportView">
 
     <Page.Resources>
         <Style TargetType="Button" x:Key="BoardInteraction" >
@@ -121,7 +121,7 @@
     </Page.Resources>
 
     <Grid
-        Background="White">
+    Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="0px"/>
             <RowDefinition Height="40px"/>
@@ -137,14 +137,78 @@
             <ColumnDefinition Width="125px"/>
             <ColumnDefinition Width="2px"/>
         </Grid.ColumnDefinitions>
-        <TextBox
-            x:Name="searchTextBox"
+        <Grid
             Grid.Row="1"
             Grid.Column="1"
-            Style="{StaticResource TextBoxStyle}"
-            Margin="0 1 0 10"
-            Text="{Binding SearchPatientText, UpdateSourceTrigger=PropertyChanged}"
-            PreviewKeyDown="TextBox_PreviewKeyDown"/>
+            Margin="0 1 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60px"/>
+                <ColumnDefinition Width="5px"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60px"/>
+                <ColumnDefinition Width="5px"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100px"/>
+                <ColumnDefinition Width="5px"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Text="Серия:"
+                Grid.Column="0"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="Номер:"
+                Grid.Column="3"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="Дата выдачи:"
+                Grid.Column="6"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBox
+                Grid.Column="2"
+                Margin="0 0 0 0"
+                Style="{StaticResource TextBoxStyle}"
+                PreviewTextInput="Passport_PreviewTextInput"
+                PreviewMouseDown="MyTextBox_PreviewMouseDown"
+                DataObject.Pasting="RestrictedTextBox_Pasting"
+                MaxLength="4"
+                Text="{Binding PassSeries, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox
+                Grid.Column="5"
+                Margin="0 0 0 0"
+                Style="{StaticResource TextBoxStyle}"
+                PreviewMouseDown="MyTextBox_PreviewMouseDown"
+                DataObject.Pasting="RestrictedTextBox_Pasting"
+                PreviewTextInput="Passport_PreviewTextInput"
+                MaxLength="6"
+                Text="{Binding PassNumber, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox
+                x:Name="PassDateTextBox"
+                Grid.Column="8"
+                Margin="0 0 0 0"
+                Style="{StaticResource TextBoxStyle}"
+                PreviewMouseDown="MyTextBox_PreviewMouseDown"
+                MaxLength="10"
+                MouseDoubleClick="PassDateTextBox_MouseDoubleClick"
+                PreviewKeyDown="RestrictedTextBox_PreviewKeyDown"
+                DataObject.Pasting="RestrictedTextBox_Pasting"
+                Text="{Binding PassDate, UpdateSourceTrigger=PropertyChanged}"/>
+            <Popup
+                x:Name="PassDatePopupCalendar"
+                PlacementTarget="{Binding ElementName=PassDateTextBox}"
+                StaysOpen="False"
+                AllowsTransparency="True"
+                PopupAnimation="Slide">
+                <Border
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    Background="White">
+                    <Calendar
+                        x:Name="PassDatePicker"
+                        SelectedDatesChanged="PassDatePicker_SelectedDatesChanged"/>
+                </Border>
+            </Popup>
+        </Grid>
         <Button Template="{DynamicResource RoundedButtonStyle}"
             Grid.Row="1"
             Grid.Column="3"
@@ -157,8 +221,8 @@
             Grid.Column="3"
             Margin="2 2 2 6"
             Style="{StaticResource LoginAndRegButtonStyle}"
-            Command="{Binding SearchPatientByPassportCommand}">
-            <TextBlock Text="Поиск по паспорту" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="125" />
+            Command="{Binding SearchPatientByNameCommand}">
+            <TextBlock Text="Поиск по ФИО" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="125" />
         </Button>
         <Button Template="{DynamicResource RoundedButtonStyle}"
             Grid.Row="4"
@@ -166,7 +230,7 @@
             Margin="2 2 2 6"
             Style="{StaticResource LoginAndRegButtonStyle}"
             Command="{Binding AddNewPatientCommand}">
-                <TextBlock Text="Добавить нового пациента" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="125" />
+            <TextBlock Text="Добавить нового пациента" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="125" />
         </Button>
         <Grid
             Grid.Row="2"

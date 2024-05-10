@@ -22,11 +22,22 @@ namespace client.View
     /// </summary>
     public partial class MainEmployeeMenu : Page
     {
+        private MainEmployeeMenuVM _myContex;
+
         public MainEmployeeMenu(Employee employee, Frame MainFrame)
         {
             InitializeComponent();
             var nav = NavigationService.GetNavigationService(MainMenuFrame);
-            DataContext = new MainEmployeeMenuVM(employee, MainFrame, MainMenuFrame);
+            _myContex = new MainEmployeeMenuVM(employee, MainFrame, MainMenuFrame);
+            DataContext = _myContex;
+        }
+
+        private void Grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_myContex.IsDimmed == true)
+            {
+                _myContex.CloseSection();
+            }
         }
     }
 }

@@ -210,7 +210,7 @@ namespace client.ViewModel
 
         }
 
-        private void CloseSection()
+        public void CloseSection()
         {
             MenuButtonWidth = 30;
             MenuButtonSourceImg = "/View/Img/employeeMenu.png";
