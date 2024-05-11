@@ -161,12 +161,12 @@
             Grid.Column="2"
             Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
         <TextBlock
-            Text="Дом:"
+            Text="Номер дома:"
             Grid.Row="7"
             Grid.Column="2"
             Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
         <TextBlock
-            Text="Квартира:"
+            Text="Номер квартиры:"
             Grid.Row="9"
             Grid.Column="2"
             Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>

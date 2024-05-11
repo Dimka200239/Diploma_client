@@ -124,4 +124,7 @@
   <data name="getBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\getBack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="getBackWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\getBackWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

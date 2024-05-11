@@ -182,30 +182,50 @@
     <Compile Include="Model\Role.cs" />
     <Compile Include="Requests\CreateAddressRequest.cs" />
     <Compile Include="Requests\CreateAdultPatientRequest.cs" />
+    <Compile Include="Requests\CreateAnthropometryOfPatientRequest.cs" />
     <Compile Include="Requests\CreatePassportRequest.cs" />
     <Compile Include="Requests\GetAdultPatientByNameRequest.cs" />
     <Compile Include="Requests\GetAdultPatientByPassportRequest.cs" />
+    <Compile Include="Requests\LifestyleRequest.cs" />
     <Compile Include="Requests\LoginRequest.cs" />
+    <Compile Include="Requests\UpdateAdultPatientRequest.cs" />
     <Compile Include="Results\AuthResult.cs" />
     <Compile Include="Results\BaseResult.cs" />
     <Compile Include="Results\CreateAddressResult.cs" />
     <Compile Include="Results\CreateAdultPatientResult.cs" />
+    <Compile Include="Results\CreateAnthropometryOfPatientResult.cs" />
+    <Compile Include="Results\CreateLifestyleResult.cs" />
     <Compile Include="Results\CreatePassportResult.cs" />
     <Compile Include="Results\GetAdultPatientByPassportResult.cs" />
     <Compile Include="Results\GetAllAddressesResult.cs" />
     <Compile Include="Results\GetEmployeeByLoginResult.cs" />
     <Compile Include="Results\GetAdultPatientByNameResult.cs" />
+    <Compile Include="Results\UpdateAdultPatientRequest.cs" />
+    <Compile Include="ViewModel\AddAnthropometryOfPatientsVM.cs" />
+    <Compile Include="ViewModel\AddLifestyleVM.cs" />
     <Compile Include="ViewModel\AddNewAddressVM.cs" />
     <Compile Include="ViewModel\AddNewPatientVM.cs" />
+    <Compile Include="ViewModel\AdultPatientProfileVM.cs" />
     <Compile Include="ViewModel\FindPatientByPassportVM.cs" />
     <Compile Include="ViewModel\FindPatientVM.cs" />
     <Compile Include="ViewModel\MainEmployeeMenuVM.cs" />
+    <Compile Include="ViewModel\UpdateAdultPatientAddressVM.cs" />
+    <Compile Include="ViewModel\UpdateInfoAboutAdultPatientVM.cs" />
     <Compile Include="ViewModel\UserLoginAndRegistrationPageVM.cs" />
+    <Compile Include="View\AddAnthropometryOfPatientsView.xaml.cs">
+      <DependentUpon>AddAnthropometryOfPatientsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddLifestyleView.xaml.cs">
+      <DependentUpon>AddLifestyleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddNewAddressView.xaml.cs">
       <DependentUpon>AddNewAddressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AddNewPatientView.xaml.cs">
       <DependentUpon>AddNewPatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AdultPatientProfileView.xaml.cs">
+      <DependentUpon>AdultPatientProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FindPatientByPassportView.xaml.cs">
       <DependentUpon>FindPatientByPassportView.xaml</DependentUpon>
@@ -221,6 +241,12 @@
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UpdateAdultPatientAddressView.xaml.cs">
+      <DependentUpon>UpdateAdultPatientAddressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UpdateInfoAboutAdultPatientView.xaml.cs">
+      <DependentUpon>UpdateInfoAboutAdultPatientView.xaml</DependentUpon>
     </Compile>
     <Page Include="Components\BindablePasswordBox.xaml">
       <SubType>Designer</SubType>
@@ -239,11 +265,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddAnthropometryOfPatientsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddLifestyleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddNewAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddNewPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AdultPatientProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -264,6 +302,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UpdateAdultPatientAddressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UpdateInfoAboutAdultPatientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -307,6 +353,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Img\getBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\getBackWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Img\getBackWhite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

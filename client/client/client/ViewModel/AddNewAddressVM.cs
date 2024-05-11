@@ -100,7 +100,7 @@ namespace client.ViewModel
                 newAddress.City = City;
                 newAddress.Street = Street;
                 newAddress.House = int.Parse(House);
-                newAddress.Apartment = (Apartment is null) ? default(int?) : int.Parse(Apartment);
+                newAddress.Apartment = (Apartment is null || Apartment.Equals("")) ? default(int?) : int.Parse(Apartment);
                 newAddress.DateOfChange = DateTime.UtcNow;
 
                 try

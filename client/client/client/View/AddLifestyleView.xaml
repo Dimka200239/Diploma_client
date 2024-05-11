@@ -1,4 +1,4 @@
-﻿<Page x:Class="client.View.MainEmployeeMenu"
+﻿<Page x:Class="client.View.AddLifestyleView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:client.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainEmployeeMenu">
+      Title="AddLifestyleView">
 
     <Page.Resources>
         <Style TargetType="Button" x:Key="BoardInteraction" >
@@ -130,7 +130,8 @@
     <Grid
         Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30px"/>
+            <RowDefinition Height="5px"/>
+            <RowDefinition Height="40px"/>
             <RowDefinition Height="3px"/>
             <RowDefinition Height="30px"/>
             <RowDefinition Height="3px"/>
@@ -138,67 +139,88 @@
             <RowDefinition Height="3px"/>
             <RowDefinition Height="30px"/>
             <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="40px"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="3px"/>
-            <RowDefinition Height="30px"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding MenuButtonWidth}"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10px"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5px"/>
         </Grid.ColumnDefinitions>
-        <Button
-            Style="{StaticResource BoardInteraction}"
-            Command="{Binding MenuButtonClickCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="30px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="0">
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="1"
+            Grid.Column="3"
+            Width="105px"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding GetBackCommand}">
             <Image
-                Source="{Binding MenuButtonSourceImg}"
-                Width="{Binding MenuButtonImgWidth}"
-                Height="25px"/>
+                Width="75px"
+                Height="21px"
+                Source="/View/Img/getBackWhite.png"/>
         </Button>
-        <Button
-            Style="{StaticResource BoardInteraction}"
-            Command="{Binding OpenFindPatientWindowCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="30px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="2"
-            Content="{Binding FindPatientText}"
-            Visibility="{Binding MenuButtonsIsEnabled}">
-        </Button>
-        <Button
-            Style="{StaticResource BoardInteraction}"
-            Command="{Binding SettingsClickCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="30px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="10"
-            Content="{Binding SettingsText}"
-            Visibility="{Binding MenuButtonsIsEnabled}">
-        </Button>
-        <Grid
-            Grid.RowSpan="11"
-            Grid.Column="1"
+        <TextBlock
+            Text="ДОБАВИТЬ ДАННЫЕ О ПОЛЕЗНЫХ/ВРЕДНЫХ ПРИВЫЧКАХ ЧЕЛОВЕКА"
+            Grid.Row="3"
+            Grid.Column="2"
             Grid.ColumnSpan="2"
-            Style="{StaticResource DimmableStyle}"
-            PreviewMouseDown="Grid_PreviewMouseDown">
-            <Frame
-                x:Name="MainMenuFrame"
-                NavigationUIVisibility="Hidden">
-
-            </Frame>
-        </Grid>
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Часто курит:"
+            Grid.Row="5"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Часто употребляет алкоголь:"
+            Grid.Row="7"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Активно занимается спортом:"
+            Grid.Row="9"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <ComboBox
+            Grid.Row="5"
+            Grid.Column="3"
+            Margin="5 4 5 5"
+            IsEditable="false"
+            Text="{Binding Smoke, UpdateSourceTrigger=PropertyChanged}">
+                <TextBlock>Да</TextBlock>
+                <TextBlock>Нет</TextBlock>
+        </ComboBox>
+        <ComboBox
+            Grid.Row="7"
+            Grid.Column="3"
+            Margin="5 4 5 5"
+            IsEditable="false"
+            Text="{Binding Drink, UpdateSourceTrigger=PropertyChanged}">
+                <TextBlock>Да</TextBlock>
+                <TextBlock>Нет</TextBlock>
+        </ComboBox>
+        <ComboBox
+            Grid.Row="9"
+            Grid.Column="3"
+            Margin="5 4 5 5"
+            IsEditable="false"
+            Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBlock>Да</TextBlock>
+                    <TextBlock>Нет</TextBlock>
+        </ComboBox>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="11"
+            Grid.Column="3"
+            Width="105px"
+            Content="Добавить"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding AddCommand}"/>
     </Grid>
 </Page>

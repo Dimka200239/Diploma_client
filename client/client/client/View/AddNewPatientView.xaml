@@ -280,8 +280,8 @@
             IsEditable="false"
             PreviewMouseDown="MyTextBox_PreviewMouseDown"
             Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}">
-            <TextBlock>Мужчина</TextBlock>
-            <TextBlock>Женщина</TextBlock>
+                <TextBlock>Мужчина</TextBlock>
+                <TextBlock>Женщина</TextBlock>
         </ComboBox>
         <TextBox
             Grid.Row="17"

@@ -22,6 +22,7 @@ namespace client.Model
         public int? Apartment { get; set; }
         public DateTime DateOfChange { get; set; }
 
-        public string GetFullAddress => City + ", ул. " + Street + ", д. " + House;
+        public string GetFullAddress => City + ", ул. " + Street + ", д. " + House + ", кв. " + ApartmentValue;
+        public string ApartmentValue => (Apartment is null) ? "-" : Apartment.ToString();
     }
 }

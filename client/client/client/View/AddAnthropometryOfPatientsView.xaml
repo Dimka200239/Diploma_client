@@ -1,4 +1,4 @@
-﻿<Page x:Class="client.View.MainEmployeeMenu"
+﻿<Page x:Class="client.View.AddAnthropometryOfPatientsView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:client.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainEmployeeMenu">
+      Title="AddAnthropometryOfPatientsView">
 
     <Page.Resources>
         <Style TargetType="Button" x:Key="BoardInteraction" >
@@ -130,7 +130,8 @@
     <Grid
         Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30px"/>
+            <RowDefinition Height="5px"/>
+            <RowDefinition Height="40px"/>
             <RowDefinition Height="3px"/>
             <RowDefinition Height="30px"/>
             <RowDefinition Height="3px"/>
@@ -138,67 +139,116 @@
             <RowDefinition Height="3px"/>
             <RowDefinition Height="30px"/>
             <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="40px"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="3px"/>
-            <RowDefinition Height="30px"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding MenuButtonWidth}"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10px"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5px"/>
         </Grid.ColumnDefinitions>
-        <Button
-            Style="{StaticResource BoardInteraction}"
-            Command="{Binding MenuButtonClickCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="30px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="0">
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="1"
+            Grid.Column="3"
+            Width="105px"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding GetBackCommand}">
             <Image
-                Source="{Binding MenuButtonSourceImg}"
-                Width="{Binding MenuButtonImgWidth}"
-                Height="25px"/>
+                Width="75px"
+                Height="21px"
+                Source="/View/Img/getBackWhite.png"/>
         </Button>
-        <Button
-            Style="{StaticResource BoardInteraction}"
-            Command="{Binding OpenFindPatientWindowCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="30px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="2"
-            Content="{Binding FindPatientText}"
-            Visibility="{Binding MenuButtonsIsEnabled}">
-        </Button>
-        <Button
-            Style="{StaticResource BoardInteraction}"
-            Command="{Binding SettingsClickCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="30px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="10"
-            Content="{Binding SettingsText}"
-            Visibility="{Binding MenuButtonsIsEnabled}">
-        </Button>
-        <Grid
-            Grid.RowSpan="11"
-            Grid.Column="1"
+        <TextBlock
+            Text="ДОБАВИТЬ АНТРОПОМЕТРИЧЕСКИЕ ДАННЫЕ О ЧЕЛОВЕКЕ"
+            Grid.Row="3"
+            Grid.Column="2"
             Grid.ColumnSpan="2"
-            Style="{StaticResource DimmableStyle}"
-            PreviewMouseDown="Grid_PreviewMouseDown">
-            <Frame
-                x:Name="MainMenuFrame"
-                NavigationUIVisibility="Hidden">
-
-            </Frame>
-        </Grid>
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Рост:"
+            Grid.Row="5"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Вес:"
+            Grid.Row="7"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Возраст:"
+            Grid.Row="9"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Объем талии:"
+            Grid.Row="11"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Объем бедра:"
+            Grid.Row="13"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="TextBox_PreviewTextInput"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="TextBox_PreviewTextInput"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="9"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="TextBox_PreviewTextInput"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="11"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="TextBox_PreviewTextInput"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Waist, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="13"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="TextBox_PreviewTextInput"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Hip, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="15"
+            Grid.Column="3"
+            Width="105px"
+            Content="Добавить"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding AddCommand}"/>
     </Grid>
 </Page>

@@ -1,6 +1,7 @@
 ﻿using client.Common;
 using client.Model;
 using client.Results;
+using client.View;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -71,7 +72,7 @@ namespace client.Components
 
         private void GoToPatientProfile(object parameter)
         {
-
+            _mainMenuFrame.Content = new AdultPatientProfileView(_mainMenuFrame, _patientWithAddressItemList);
         }
 
         public void SetInfo()

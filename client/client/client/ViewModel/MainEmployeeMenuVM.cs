@@ -17,9 +17,6 @@ namespace client.ViewModel
         private string _menuButtonsIsEnabled;
 
         private string _findPatientText;
-        private string _dataTransferText;
-        private string _colculationText;
-        private string _findConlusionText;
         private string _settingsText;
 
         private bool _isDimmed;
@@ -32,8 +29,6 @@ namespace client.ViewModel
 
         public ICommand MenuButtonClickCommand { get; }
         public ICommand OpenFindPatientWindowCommand { get; }
-        public ICommand OpenColculationWindowCommand { get; }
-        public ICommand OpenFindConlusionCommand { get; }
         public ICommand SettingsClickCommand { get; }
 
         public MainEmployeeMenuVM(Employee employee, Frame mainFrame, Frame mainMenuFrame)
@@ -50,8 +45,6 @@ namespace client.ViewModel
 
             MenuButtonClickCommand = new RelayCommand(MenuButtonClick);
             OpenFindPatientWindowCommand = new RelayCommand(OpenFindPatientWindow);
-            OpenColculationWindowCommand = new RelayCommand(OpenColculationWindow);
-            OpenFindConlusionCommand = new RelayCommand(OpenFindConlusion);
             SettingsClickCommand = new RelayCommand(SettingsClick);
 
             _mainMenuFrame.Content = new FindPatientView(_mainMenuFrame);
@@ -108,36 +101,6 @@ namespace client.ViewModel
             }
         }
 
-        public string DataTransferText
-        {
-            get { return _dataTransferText; }
-            set
-            {
-                _dataTransferText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DataTransferText)));
-            }
-        }
-
-        public string ColculationText
-        {
-            get { return _colculationText; }
-            set
-            {
-                _colculationText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColculationText)));
-            }
-        }
-
-        public string FindConlusionText
-        {
-            get { return _findConlusionText; }
-            set
-            {
-                _findConlusionText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FindConlusionText)));
-            }
-        }
-
         public string SettingsText
         {
             get { return _settingsText; }
@@ -177,8 +140,6 @@ namespace client.ViewModel
                 MenuButtonHorizontalAlignment = "Center";
                 _menuButtonIsOpen = true;
                 FindPatientText = "Найти пациента";
-                ColculationText = "Рассчитать";
-                FindConlusionText = "Поиск заключений";
                 SettingsText = "Настройки";
                 MenuButtonsIsEnabled = "Visible";
                 IsDimmed = !IsDimmed;
@@ -195,16 +156,6 @@ namespace client.ViewModel
             CloseSection();
         }
 
-        private void OpenColculationWindow(object parameter)
-        {
-
-        }
-
-        private void OpenFindConlusion(object parameter)
-        {
-
-        }
-
         private void SettingsClick(object parameter)
         {
 
@@ -217,9 +168,6 @@ namespace client.ViewModel
             MenuButtonHorizontalAlignment = "Right";
             _menuButtonIsOpen = false;
             FindPatientText = "";
-            DataTransferText = "";
-            ColculationText = "";
-            FindConlusionText = "";
             SettingsText = "";
             MenuButtonsIsEnabled = "Collapsed";
             IsDimmed = !IsDimmed;
