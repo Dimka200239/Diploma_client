@@ -180,6 +180,7 @@
     <Compile Include="Model\Lifestyle.cs" />
     <Compile Include="Model\Passport.cs" />
     <Compile Include="Model\Role.cs" />
+    <Compile Include="Requests\BloodAnalysisRequest.cs" />
     <Compile Include="Requests\CreateAddressRequest.cs" />
     <Compile Include="Requests\CreateAdultPatientRequest.cs" />
     <Compile Include="Requests\CreateAnthropometryOfPatientRequest.cs" />
@@ -194,8 +195,10 @@
     <Compile Include="Results\CreateAddressResult.cs" />
     <Compile Include="Results\CreateAdultPatientResult.cs" />
     <Compile Include="Results\CreateAnthropometryOfPatientResult.cs" />
+    <Compile Include="Results\CreateBloodAnalysisResult.cs" />
     <Compile Include="Results\CreateLifestyleResult.cs" />
     <Compile Include="Results\CreatePassportResult.cs" />
+    <Compile Include="Results\GetAdultPatientByIdWithAnthropometryAndLifestyleResult.cs" />
     <Compile Include="Results\GetAdultPatientByPassportResult.cs" />
     <Compile Include="Results\GetAllAddressesResult.cs" />
     <Compile Include="Results\GetEmployeeByLoginResult.cs" />
@@ -206,6 +209,7 @@
     <Compile Include="ViewModel\AddNewAddressVM.cs" />
     <Compile Include="ViewModel\AddNewPatientVM.cs" />
     <Compile Include="ViewModel\AdultPatientProfileVM.cs" />
+    <Compile Include="ViewModel\CountSSZVM.cs" />
     <Compile Include="ViewModel\FindPatientByPassportVM.cs" />
     <Compile Include="ViewModel\FindPatientVM.cs" />
     <Compile Include="ViewModel\MainEmployeeMenuVM.cs" />
@@ -226,6 +230,9 @@
     </Compile>
     <Compile Include="View\AdultPatientProfileView.xaml.cs">
       <DependentUpon>AdultPatientProfileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CountSSZView.xaml.cs">
+      <DependentUpon>CountSSZView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FindPatientByPassportView.xaml.cs">
       <DependentUpon>FindPatientByPassportView.xaml</DependentUpon>
@@ -282,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AdultPatientProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CountSSZView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

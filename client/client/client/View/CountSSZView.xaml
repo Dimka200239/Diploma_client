@@ -1,0 +1,405 @@
+﻿<Page x:Class="client.View.CountSSZView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:client.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="680" d:DesignWidth="800"
+      Title="CountSSZView">
+
+    <Page.Resources>
+        <Style TargetType="Button" x:Key="BoardInteraction" >
+            <Style.Setters>
+                <Setter Property="BorderBrush" Value="Silver" />
+                <Setter Property="Background" Value="white" />
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#0077FF" />
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="LodinAndPasswordTextStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Tahoma" />
+            <Setter Property="TextBlock.FontSize" Value="10" />
+            <Setter Property="TextBlock.Margin" Value="0 3 0 3" />
+        </Style>
+        <Style x:Key="LoginAndPasswordTextBlockStyle" BasedOn="{StaticResource LodinAndPasswordTextStyle}">
+            <Setter Property="TextBlock.FontSize" Value="14" />
+            <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Button" x:Key="RecoverAndRegButtonStyle2" >
+            <Style.Setters>
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Background" Value="#fff" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#fff" />
+                    <Setter Property="Foreground" Value="#0077FF"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#fff" />
+                    <Setter Property="Foreground" Value="#1500ff"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="LoginAndRegButtonStyle">
+            <Setter Property="Button.FontFamily" Value="Tahoma" />
+            <Setter Property="Button.Background" Value="#81bafc" />
+            <Setter Property="Button.Foreground" Value="#fff" />
+            <Setter Property="Button.Margin" Value="0 3 0 3" />
+            <Setter Property="Button.Padding" Value="1 1 1 1" />
+            <Setter Property="Button.FontSize" Value="14" />
+            <Setter Property="Button.BorderThickness" Value="0" />
+        </Style>
+        <ControlTemplate x:Key="RoundedButtonStyle" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="true">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="#0077FF"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#0077FF"/>
+                    <Setter Property="Cursor" TargetName="border" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="#1500ff"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#1500ff"/>
+                    <Setter Property="Cursor" TargetName="border" Value="Hand"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="RecoverAndRegButtonStyle" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="true">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="#fff"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#0077FF"/>
+                    <Setter Property="Cursor" TargetName="border" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="#fff"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#1500ff"/>
+                    <Setter Property="Cursor" TargetName="border" Value="Hand"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style TargetType="PasswordBox" x:Key="PasswordBoxStyle" BasedOn="{StaticResource LodinAndPasswordTextStyle}">
+            <Style.Setters>
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0 10 0 10" />
+                <Setter Property="Padding" Value="3 0 0 0" />
+            </Style.Setters>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextBoxStyle" BasedOn="{StaticResource LodinAndPasswordTextStyle}">
+            <Style.Setters>
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="5 5 5 5" />
+                <Setter Property="Padding" Value="3 0 0 0" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+
+    <Grid
+        Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5px"/>
+            <RowDefinition Height="40px"/>
+            <RowDefinition Height="0px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="0px"/>
+            <RowDefinition Height="40px"/>
+            <RowDefinition Height="0px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="0px"/>
+            <RowDefinition Height="40px"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10px"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5px"/>
+        </Grid.ColumnDefinitions>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="1"
+            Grid.Column="3"
+            Width="105px"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding GetBackCommand}">
+            <Image
+                Width="75px"
+                Height="21px"
+                Source="/View/Img/getBackWhite.png"/>
+        </Button>
+        <TextBlock
+            Text="Рост:"
+            Grid.Row="3"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Вес:"
+            Grid.Row="5"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Объем талии:"
+            Grid.Row="7"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Объем бедра:"
+            Grid.Row="9"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Часто курит:"
+            Grid.Row="11"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Часто употребляет алкоголь:"
+            Grid.Row="13"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Активно занимается спортом:"
+            Grid.Row="15"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="НЕОБХОДИМЫЕ ДАННЫЕ ИЗ ОБЩЕГО АНАЛИЗА КРОВИ"
+            Grid.Row="17"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Уровень холестерина:"
+            Grid.Row="19"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Триглицериды:"
+            Grid.Row="21"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="ЛПНП:"
+            Grid.Row="23"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="25"
+            Grid.Column="3"
+            Width="105px"
+            Content="Рассчитать"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding CountCommand}"/>
+        <TextBlock
+            Text="РЕЗУЛЬТАТ РАССЧЕТА НЕОБХОДИМЫХ ПАРАМЕТРОВ"
+            Grid.Row="27"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="ЛПВП:"
+            Grid.Row="29"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="ЛПОНП:"
+            Grid.Row="31"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Коэффициент атерогенности:"
+            Grid.Row="33"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="ИМТ:"
+            Grid.Row="35"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBlock
+            Text="Индекс талии/бедра:"
+            Grid.Row="37"
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="39"
+            Grid.Column="3"
+            Width="105px"
+            Content="Сохранить"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding SaveCommand}"/>
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Waist, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="9"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Hip, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="11"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Smoke, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="13"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Drink, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="15"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Sport, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="19"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="ValidateTextInput"
+            PreviewKeyDown="PreventSpaceAndIncorrectDot"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Cholesterol, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="21"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="ValidateTextInput"
+            PreviewKeyDown="PreventSpaceAndIncorrectDot"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding Triglycerides, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="23"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            PreviewTextInput="ValidateTextInput"
+            PreviewKeyDown="PreventSpaceAndIncorrectDot"
+            DataObject.Pasting="RestrictedTextBox_Pasting"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding LDL, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="29"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding HDL, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="31"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding VLDL, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="33"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding AtherogenicCoefficient, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="35"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding BMI, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox
+            Grid.Row="37"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding WHI, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</Page>

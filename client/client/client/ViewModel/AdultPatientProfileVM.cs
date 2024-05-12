@@ -1,7 +1,13 @@
 ﻿using client.Common;
 using client.Results;
 using client.View;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -11,6 +17,10 @@ namespace client.ViewModel
     {
         private Frame _mainMenuFrame;
         private GetPatientWithAddressItemList _patientWithAddressItemList;
+
+        private readonly string _baseServerAdress;
+        private static HttpClient client;
+        private IConfiguration configuration;
 
         private string _FIO;
         private string _dateOfBirth;
@@ -28,6 +38,16 @@ namespace client.ViewModel
 
         public AdultPatientProfileVM(Frame mainMenuFrame, GetPatientWithAddressItemList patientWithAddressItemList)
         {
+            client = new HttpClient();
+
+            configuration = App.Instance.Configuration;
+
+            _baseServerAdress = configuration.GetValue<string>("HttpsBaseServerAdress");
+            client.BaseAddress = new Uri(_baseServerAdress);
+
+            var employeeToken = configuration.GetValue<string>("EmployeeToken");
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", employeeToken);
+
             _mainMenuFrame = mainMenuFrame;
             _patientWithAddressItemList = patientWithAddressItemList;
 
@@ -110,9 +130,55 @@ namespace client.ViewModel
             _mainMenuFrame.Content = new AddLifestyleView(_mainMenuFrame, _patientWithAddressItemList);
         }
 
-        private void GetAnalisys(object parameter)
+        private async void GetAnalisys(object parameter)
         {
+            try
+            {
+                var getInfoAboutAdultPatientResponse = await client.GetAsync($"/api/adultPatient/getAdultPatientByIdWithAnthropometryAndLifestyle/{_patientWithAddressItemList.AdultPatient.Id}");
 
+                if (getInfoAboutAdultPatientResponse.IsSuccessStatusCode)
+                {
+                    string getInfoAboutAdultPatientResponseContent = await getInfoAboutAdultPatientResponse.Content.ReadAsStringAsync();
+                    var getInfoAboutAdultPatientResult = JsonConvert.DeserializeObject<GetAdultPatientByIdWithAnthropometryAndLifestyleResult>(getInfoAboutAdultPatientResponseContent);
+
+                    if (getInfoAboutAdultPatientResult.Success == true)
+                    {
+                        if (getInfoAboutAdultPatientResult.AnthropometryOfPatient is null)
+                        {
+                            MessageBox.Show("Добавьте актуальные антропометрические данные!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        if (getInfoAboutAdultPatientResult.AnthropometryOfPatient.DateOfChange.Date != DateTime.Today.Date)
+                        {
+                            MessageBox.Show("Добавьте актуальные антропометрические данные!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        if (getInfoAboutAdultPatientResult.Lifestyle is null)
+                        {
+                            MessageBox.Show("Добавьте актуальные данные о вредных/полезных привычках!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        if (getInfoAboutAdultPatientResult.Lifestyle.DateOfChange.Date != DateTime.Today.Date)
+                        {
+                            MessageBox.Show("Добавьте актуальные данные о вредных/полезных привычках!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        _mainMenuFrame.Content = new CountSSZView(_mainMenuFrame, _patientWithAddressItemList, getInfoAboutAdultPatientResult.AnthropometryOfPatient, getInfoAboutAdultPatientResult.Lifestyle);
+                    }
+                    else
+                    {
+                        MessageBox.Show(getInfoAboutAdultPatientResult.Errors[0], "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         public void SetInfo()
