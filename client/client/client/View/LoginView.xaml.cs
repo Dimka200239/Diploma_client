@@ -1,4 +1,5 @@
 ﻿using client.ViewModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace client.View
@@ -8,10 +9,10 @@ namespace client.View
     /// </summary>
     public partial class LoginView : Page
     {
-        public LoginView(Frame MainFrame)
+        public LoginView(Frame MainFrame, Window mainWindow)
         {
             InitializeComponent();
-            DataContext = new UserLoginAndRegistrationPageVM(MainFrame);
+            DataContext = new UserLoginAndRegistrationPageVM(MainFrame, mainWindow);
         }
     }
 }

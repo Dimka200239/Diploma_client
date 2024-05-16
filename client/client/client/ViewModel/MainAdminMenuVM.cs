@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace client.ViewModel
 {
-    public class MainEmployeeMenuVM : INotifyPropertyChanged
+    public class MainAdminMenuVM : INotifyPropertyChanged
     {
         private int _menuButtonWidth;
         private string _menuButtonSourceImg;
@@ -17,7 +17,9 @@ namespace client.ViewModel
         private bool _menuButtonIsOpen;
         private string _menuButtonsIsEnabled;
 
-        private string _findPatientText;
+        private string _addNewEmployeeText;
+        private string _addNewDataLearningText;
+        private string _updateMathModelText;
         private string _settingsText;
         private string _exitText;
 
@@ -31,11 +33,13 @@ namespace client.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand MenuButtonClickCommand { get; }
-        public ICommand OpenFindPatientWindowCommand { get; }
+        public ICommand AddNewEmployeeWindowCommand { get; }
+        public ICommand AddNewDataLearningWindowCommand { get; }
+        public ICommand UpdateMathModelWindowCommand { get; }
         public ICommand SettingsClickCommand { get; }
         public ICommand ExitClickCommand { get; }
 
-        public MainEmployeeMenuVM(Employee employee, Frame mainFrame, Frame mainMenuFrame, Window mainWindow)
+        public MainAdminMenuVM(Employee employee, Frame mainFrame, Frame mainMenuFrame, Window mainWindow)
         {
             _employee = employee;
             _mainFrame = mainFrame;
@@ -49,11 +53,13 @@ namespace client.ViewModel
             _menuButtonsIsEnabled = "Collapsed";
 
             MenuButtonClickCommand = new RelayCommand(MenuButtonClick);
-            OpenFindPatientWindowCommand = new RelayCommand(OpenFindPatientWindow);
+            AddNewEmployeeWindowCommand = new RelayCommand(AddNewEmployeeWindow);
+            AddNewDataLearningWindowCommand = new RelayCommand(AddNewDataLearningWindow);
+            UpdateMathModelWindowCommand = new RelayCommand(UpdateMathModelWindow);
             SettingsClickCommand = new RelayCommand(SettingsClick);
             ExitClickCommand = new RelayCommand(ExitClick);
 
-            _mainMenuFrame.Content = new FindPatientView(_mainMenuFrame);
+            _mainMenuFrame.Content = new AddNewDataLearningView();
         }
 
         public int MenuButtonWidth
@@ -86,7 +92,7 @@ namespace client.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MenuButtonHorizontalAlignment)));
             }
         }
-        
+
         public int MenuButtonImgWidth
         {
             get { return _menuButtonImgWidth; }
@@ -97,13 +103,33 @@ namespace client.ViewModel
             }
         }
 
-        public string FindPatientText
+        public string AddNewEmployeeText
         {
-            get { return _findPatientText; }
+            get { return _addNewEmployeeText; }
             set
             {
-                _findPatientText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FindPatientText)));
+                _addNewEmployeeText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddNewEmployeeText)));
+            }
+        }
+
+        public string AddNewDataLearningText
+        {
+            get { return _addNewDataLearningText; }
+            set
+            {
+                _addNewDataLearningText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddNewDataLearningText)));
+            }
+        }
+
+        public string UpdateMathModelText
+        {
+            get { return _updateMathModelText; }
+            set
+            {
+                _updateMathModelText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UpdateMathModelText)));
             }
         }
 
@@ -155,7 +181,9 @@ namespace client.ViewModel
                 MenuButtonSourceImg = "/View/Img/getBack.png";
                 MenuButtonHorizontalAlignment = "Center";
                 _menuButtonIsOpen = true;
-                FindPatientText = "Найти пациента";
+                AddNewEmployeeText = "Добавить нового сотрудника";
+                AddNewDataLearningText = "Добавить данные для обучения модели";
+                UpdateMathModelText = "Переобучить модель";
                 SettingsText = "Настройки";
                 ExitText = "Выйти";
                 MenuButtonsIsEnabled = "Visible";
@@ -167,9 +195,20 @@ namespace client.ViewModel
             }
         }
 
-        private void OpenFindPatientWindow(object parameter)
+        private void AddNewEmployeeWindow(object parameter)
         {
-            _mainMenuFrame.Content = new FindPatientView(_mainMenuFrame);
+            CloseSection();
+        }
+
+        private void AddNewDataLearningWindow(object parameter)
+        {
+            _mainMenuFrame.Content = new AddNewDataLearningView();
+            CloseSection();
+        }
+
+        private void UpdateMathModelWindow(object parameter)
+        {
+            _mainMenuFrame.Content = new UpdateMathModelView(_mainWindow);
             CloseSection();
         }
 
@@ -198,7 +237,9 @@ namespace client.ViewModel
             MenuButtonSourceImg = "/View/Img/employeeMenu.png";
             MenuButtonHorizontalAlignment = "Right";
             _menuButtonIsOpen = false;
-            FindPatientText = "";
+            AddNewEmployeeText = "";
+            AddNewDataLearningText = "";
+            UpdateMathModelText = "";
             SettingsText = "";
             ExitText = "";
             MenuButtonsIsEnabled = "Collapsed";

@@ -1,4 +1,5 @@
 ﻿using client.Common;
+using client.Model;
 using client.Requests;
 using client.Results;
 using client.View;
@@ -21,6 +22,7 @@ namespace client.ViewModel
         private string _password;
         private bool _rememberMe;
         private readonly Frame _mainFrame;
+        private readonly Window _mainWindow;
         private readonly string _baseServerAdress;
         private static HttpClient client;
         private IConfiguration configuration;
@@ -29,12 +31,13 @@ namespace client.ViewModel
 
         public ICommand LoginCommand { get; }
 
-        public UserLoginAndRegistrationPageVM(Frame mainFrame)
+        public UserLoginAndRegistrationPageVM(Frame mainFrame, Window mainWindow)
         {
             client = new HttpClient();
 
             configuration = App.Instance.Configuration;
             _mainFrame = mainFrame;
+            _mainWindow = mainWindow;
             LoginCommand = new RelayCommand(Authorize);
             _baseServerAdress = configuration.GetValue<string>("HttpsBaseServerAdress");
             _login = configuration.GetValue<string>("LastEmployeeLogin");
@@ -103,7 +106,7 @@ namespace client.ViewModel
                         if (getEmployeeResponseBylogin.IsSuccessStatusCode)
                         {
                             string getEmployeeResponseByloginContent = await getEmployeeResponseBylogin.Content.ReadAsStringAsync();
-                            var getEmployeeResponseByloginResult = JsonConvert.DeserializeObject<GetEmployeeByLoginResult>(responseContent);
+                            var getEmployeeResponseByloginResult = JsonConvert.DeserializeObject<GetEmployeeByLoginResult>(getEmployeeResponseByloginContent);
 
                             if (getEmployeeResponseByloginResult.Success == true)
                             {
@@ -116,7 +119,18 @@ namespace client.ViewModel
                                     writeTokenToAppSettingsClass.ClearLoginAndPassWord();
                                 }
 
-                                _mainFrame.Content = new MainEmployeeMenu(getEmployeeResponseByloginResult.Employee, _mainFrame);
+                                if (getEmployeeResponseByloginResult.Employee.Role == Role.Employee)
+                                {
+                                    _mainFrame.Content = new MainEmployeeMenu(getEmployeeResponseByloginResult.Employee, _mainFrame, _mainWindow);
+                                }
+                                else if (getEmployeeResponseByloginResult.Employee.Role == Role.Admin)
+                                {
+                                    _mainFrame.Content = new MainAdminMenu(getEmployeeResponseByloginResult.Employee, _mainFrame, _mainWindow);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Ваша учетная запись имеет неккоректную роль", "Ошибка авторизации", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
                             }
                             else
                             {
@@ -125,7 +139,7 @@ namespace client.ViewModel
                         }
                         else
                         {
-                            MessageBox.Show("Ошибка при попытке подключения к серверу...", "Ошибка соединения", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Ошибка при попытке подключения к серверу", "Ошибка соединения", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else

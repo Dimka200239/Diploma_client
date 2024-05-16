@@ -4,11 +4,15 @@ using client.Requests;
 using client.Results;
 using client.View;
 using Microsoft.Extensions.Configuration;
+using Microsoft.ML;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition.Primitives;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Windows;
@@ -25,6 +29,7 @@ namespace client.ViewModel
         private GetPatientWithAddressItemList _patientWithAddressItemList;
         private AnthropometryOfPatient _anthropometryOfPatient;
         private Lifestyle _lifestyle;
+        private BloodAnalysis _bloodAnalysis;
 
         private readonly string _baseServerAdress;
         private static HttpClient client;
@@ -236,7 +241,7 @@ namespace client.ViewModel
         private void Count(object parameter)
         {
             HDL = Math.Round(float.Parse(Cholesterol, culture) - (float.Parse(LDL, culture) + (float.Parse(Triglycerides, culture) / 2.2)), 2).ToString();
-            VLDL = Math.Round(float.Parse(Triglycerides, culture) / 5, 2).ToString();
+            VLDL = Math.Round(float.Parse(Triglycerides, culture) / 2.2, 2).ToString();
             AtherogenicCoefficient = Math.Round((float.Parse(VLDL, culture) + float.Parse(LDL, culture)) / float.Parse(HDL, culture), 2).ToString();
             BMI = Math.Round(float.Parse(Weight, culture) / Math.Pow(float.Parse(Height, culture) / 100, 2), 2).ToString();
             WHI = Math.Round(float.Parse(Waist, culture) / float.Parse(Hip, culture), 2).ToString();
@@ -282,6 +287,65 @@ namespace client.ViewModel
                     if (createBloodAnalysisResult.Success == true)
                     {
                         MessageBox.Show("Новый анализ успешно добавлен!", "Успешное добавление", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        _bloodAnalysis = createBloodAnalysisResult.BloodAnalysis;
+
+                        var getLastVersionResponse = await client.GetAsync($"/api/machineLearningModel/getLastVersion");
+
+                        if (getLastVersionResponse.IsSuccessStatusCode)
+                        {
+                            string getLastVersionResponseContent = await getLastVersionResponse.Content.ReadAsStringAsync();
+                            var getLastVersionResult = JsonConvert.DeserializeObject<GetLastVersionResult>(getLastVersionResponseContent);
+
+                            if (getLastVersionResult.Success == true)
+                            {
+                                // Создаем контекст для ML.NET
+                                MLContext mlContext = new MLContext();
+                                ITransformer model = null;
+
+                                GetLastVersionResult serverResponse = getLastVersionResult;
+
+                                if (serverResponse != null && serverResponse.MachineLearningModel != null)
+                                {
+                                    // Десериализация модели из MachineLearningModel
+                                    DataViewSchema schema;
+                                    model = serverResponse.MachineLearningModel.DeserializeModel(mlContext, out schema);
+                                }
+
+                                var newData = new List<HealthData>
+                                {
+                                    new HealthData
+                                    {
+                                        Gender = _patientWithAddressItemList.AdultPatient.Gender.Equals("male") ? 0f : 1f,
+                                        Age = (float)_anthropometryOfPatient.Age,
+                                        SmokeCigarettes = _lifestyle.SmokeCigarettes == true ? 0f : 1f,
+                                        DrinkAlcohol = _lifestyle.DrinkAlcohol == true ? 0f : 1f,
+                                        Sport = _lifestyle.Sport == true ? 0f : 1f,
+                                        AmountOfCholesterol = (float)_bloodAnalysis.AmountOfCholesterol,
+                                        HDL = (float)_bloodAnalysis.HDL,
+                                        LDL = (float)_bloodAnalysis.LDL,
+                                        AtherogenicityCoefficient =(float)_bloodAnalysis.AtherogenicityCoefficient,
+                                        WHI = (float)_bloodAnalysis.WHI
+                                    }
+                                };
+
+                                IDataView newDataView = mlContext.Data.LoadFromEnumerable(newData);
+
+                                if (model != null)
+                                {
+                                    // Применение модели для новых данных
+                                    var predictions = model.Transform(newDataView);
+
+                                    var predictedResults = mlContext.Data.CreateEnumerable<HealthPrediction>(predictions, reuseRowObject: false).ToList();
+
+                                    _mainMenuFrame.Content = new CounSSZResultView(predictedResults[0]);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(getLastVersionResult.Errors[0], "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                        }
                     }
                     else
                     {

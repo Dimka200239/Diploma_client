@@ -12,7 +12,7 @@ namespace client.View
         {
             InitializeComponent();
             var nav = NavigationService.GetNavigationService(MainFrame);
-            MainFrame.Content = new LoginView(MainFrame);
+            MainFrame.Content = new LoginView(MainFrame, this);
         }
     }
 }

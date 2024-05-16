@@ -8,17 +8,17 @@ using System.Windows.Navigation;
 namespace client.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainEmployeeMenu.xaml
+    /// Логика взаимодействия для MainAdminMenu.xaml
     /// </summary>
-    public partial class MainEmployeeMenu : Page
+    public partial class MainAdminMenu : Page
     {
-        private MainEmployeeMenuVM _myContex;
+        private MainAdminMenuVM _myContex;
 
-        public MainEmployeeMenu(Employee employee, Frame MainFrame, Window mainWindow)
+        public MainAdminMenu(Employee employee, Frame MainFrame, Window mainWindow)
         {
             InitializeComponent();
-            var nav = NavigationService.GetNavigationService(MainMenuFrame);
-            _myContex = new MainEmployeeMenuVM(employee, MainFrame, MainMenuFrame, mainWindow);
+            var nav = NavigationService.GetNavigationService(MainAdminMenuFrame);
+            _myContex = new MainAdminMenuVM(employee, MainFrame, MainAdminMenuFrame, mainWindow);
             DataContext = _myContex;
         }
 
