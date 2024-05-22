@@ -338,7 +338,27 @@ namespace client.ViewModel
 
                                     var predictedResults = mlContext.Data.CreateEnumerable<HealthPrediction>(predictions, reuseRowObject: false).ToList();
 
-                                    _mainMenuFrame.Content = new CounSSZResultView(predictedResults[0]);
+                                    GetLastCorrelationValueResult lastCorrelationValueResult = null;
+                                    var getLastCorrelationValueResponse = await client.GetAsync($"/api/correlation/getLastCorrelationValue");
+
+                                    if (getLastCorrelationValueResponse.IsSuccessStatusCode)
+                                    {
+                                        string getLastCorrelationValueResponseContent = await getLastCorrelationValueResponse.Content.ReadAsStringAsync();
+                                        var getLastCorrelationValueResult = JsonConvert.DeserializeObject<GetLastCorrelationValueResult>(getLastCorrelationValueResponseContent);
+
+                                        if (getLastCorrelationValueResult.Success == true)
+                                        {
+                                            lastCorrelationValueResult = getLastCorrelationValueResult;
+                                        }
+                                    }
+
+                                    _mainMenuFrame.Content = new CounSSZResultView(predictedResults[0],
+                                        lastCorrelationValueResult,
+                                        _patientWithAddressItemList,
+                                        _anthropometryOfPatient,
+                                        _lifestyle,
+                                        _bloodAnalysis,
+                                        _mainMenuFrame);
                                 }
                             }
                             else

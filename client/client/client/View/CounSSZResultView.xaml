@@ -130,39 +130,71 @@
     <Grid
     Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10px"/>
-            <RowDefinition Height="150px"/>
+            <RowDefinition Height="5px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="300px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="40px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="40px"/>
+            <RowDefinition Height="3px"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10px"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10px"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10px"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5px"/>
         </Grid.ColumnDefinitions>
         <TextBlock
+            Text="Класс риска развития ССЗ:"
             Grid.Row="1"
-            Grid.Column="1"
-            Text="{Binding ResultText}"
-            TextAlignment="Center"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Width="300px"
-            Height="75px"
-            FontSize="16">
-            
-        </TextBlock>
+            Grid.Column="2"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="0 5 0 5"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock
-            Grid.Row="2"
-            Grid.Column="1"
+            Text="Статистически наиболее важные параметры:"
+            Grid.Row="5"
+            Grid.Column="2"
+            TextWrapping="Wrap"
+            TextAlignment="Center"
+            Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="3"
+            Margin="0 5 0 10"
+            IsEnabled="False"
+            Style="{StaticResource TextBoxStyle}"
+            Text="{Binding CorrelationText, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
             Text="{Binding ExplanationText}"
             TextAlignment="Left"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Width="700px"
-            Height="250px"
-            FontSize="12">
+            Margin="5 5 5 5"
+            FontSize="16">
 
         </TextBlock>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="7"
+            Grid.Column="3"
+            Width="350px"
+            Content="Сформировать word-файл с рекомендациями"
+            Margin="0 5 5 5"
+            HorizontalAlignment="Right"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding CreateWordCommand}"/>
     </Grid>
 </Page>

@@ -42,6 +42,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.0.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.3.0.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.0.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.0.2\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -230,6 +236,7 @@
     <Compile Include="Model\AnthropometryOfPatient.cs" />
     <Compile Include="Model\AppSettings.cs" />
     <Compile Include="Model\BloodAnalysis.cs" />
+    <Compile Include="Model\CorrelationValue.cs" />
     <Compile Include="Model\DataForFutureLearning.cs" />
     <Compile Include="Model\DateForForecasting.cs" />
     <Compile Include="Model\Employee.cs" />
@@ -267,6 +274,7 @@
     <Compile Include="Results\GetAllDataForFutureLearningResult.cs" />
     <Compile Include="Results\GetEmployeeByLoginResult.cs" />
     <Compile Include="Results\GetAdultPatientByNameResult.cs" />
+    <Compile Include="Results\GetLastCorrelationValueResult.cs" />
     <Compile Include="Results\GetLastVersionResult.cs" />
     <Compile Include="Results\UpdateAdultPatientRequest.cs" />
     <Compile Include="Results\UpdateMachineLearningModelResult.cs" />
