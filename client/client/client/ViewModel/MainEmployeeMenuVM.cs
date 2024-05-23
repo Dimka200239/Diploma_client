@@ -18,7 +18,6 @@ namespace client.ViewModel
         private string _menuButtonsIsEnabled;
 
         private string _findPatientText;
-        private string _settingsText;
         private string _exitText;
 
         private bool _isDimmed;
@@ -32,7 +31,6 @@ namespace client.ViewModel
 
         public ICommand MenuButtonClickCommand { get; }
         public ICommand OpenFindPatientWindowCommand { get; }
-        public ICommand SettingsClickCommand { get; }
         public ICommand ExitClickCommand { get; }
 
         public MainEmployeeMenuVM(Employee employee, Frame mainFrame, Frame mainMenuFrame, Window mainWindow)
@@ -50,7 +48,6 @@ namespace client.ViewModel
 
             MenuButtonClickCommand = new RelayCommand(MenuButtonClick);
             OpenFindPatientWindowCommand = new RelayCommand(OpenFindPatientWindow);
-            SettingsClickCommand = new RelayCommand(SettingsClick);
             ExitClickCommand = new RelayCommand(ExitClick);
 
             _mainMenuFrame.Content = new FindPatientView(_mainMenuFrame);
@@ -107,16 +104,6 @@ namespace client.ViewModel
             }
         }
 
-        public string SettingsText
-        {
-            get { return _settingsText; }
-            set
-            {
-                _settingsText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SettingsText)));
-            }
-        }
-
         public string ExitText
         {
             get { return _exitText; }
@@ -156,7 +143,6 @@ namespace client.ViewModel
                 MenuButtonHorizontalAlignment = "Center";
                 _menuButtonIsOpen = true;
                 FindPatientText = "Найти пациента";
-                SettingsText = "Настройки";
                 ExitText = "Выйти";
                 MenuButtonsIsEnabled = "Visible";
                 IsDimmed = !IsDimmed;
@@ -170,11 +156,6 @@ namespace client.ViewModel
         private void OpenFindPatientWindow(object parameter)
         {
             _mainMenuFrame.Content = new FindPatientView(_mainMenuFrame);
-            CloseSection();
-        }
-
-        private void SettingsClick(object parameter)
-        {
             CloseSection();
         }
 
@@ -199,7 +180,6 @@ namespace client.ViewModel
             MenuButtonHorizontalAlignment = "Right";
             _menuButtonIsOpen = false;
             FindPatientText = "";
-            SettingsText = "";
             ExitText = "";
             MenuButtonsIsEnabled = "Collapsed";
             IsDimmed = !IsDimmed;

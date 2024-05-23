@@ -252,11 +252,13 @@
     <Compile Include="Requests\CreateAddressRequest.cs" />
     <Compile Include="Requests\CreateAdultPatientRequest.cs" />
     <Compile Include="Requests\CreateAnthropometryOfPatientRequest.cs" />
+    <Compile Include="Requests\CreateDataForFutureLearningRequest.cs" />
     <Compile Include="Requests\CreatePassportRequest.cs" />
     <Compile Include="Requests\GetAdultPatientByNameRequest.cs" />
     <Compile Include="Requests\GetAdultPatientByPassportRequest.cs" />
     <Compile Include="Requests\LifestyleRequest.cs" />
     <Compile Include="Requests\LoginRequest.cs" />
+    <Compile Include="Requests\RegisterEmployeeRequest.cs" />
     <Compile Include="Requests\UpdateAdultPatientRequest.cs" />
     <Compile Include="Results\AddDateForForecastingResult.cs" />
     <Compile Include="Results\AuthResult.cs" />
@@ -266,22 +268,26 @@
     <Compile Include="Results\CreateAdultPatientResult.cs" />
     <Compile Include="Results\CreateAnthropometryOfPatientResult.cs" />
     <Compile Include="Results\CreateBloodAnalysisResult.cs" />
+    <Compile Include="Results\CreateDataForFutureLearningResult.cs" />
     <Compile Include="Results\CreateLifestyleResult.cs" />
     <Compile Include="Results\CreatePassportResult.cs" />
     <Compile Include="Results\GetAdultPatientByIdWithAnthropometryAndLifestyleResult.cs" />
     <Compile Include="Results\GetAdultPatientByPassportResult.cs" />
     <Compile Include="Results\GetAllAddressesResult.cs" />
     <Compile Include="Results\GetAllDataForFutureLearningResult.cs" />
+    <Compile Include="Results\GetCorrelationResult.cs" />
     <Compile Include="Results\GetEmployeeByLoginResult.cs" />
     <Compile Include="Results\GetAdultPatientByNameResult.cs" />
     <Compile Include="Results\GetLastCorrelationValueResult.cs" />
     <Compile Include="Results\GetLastVersionResult.cs" />
     <Compile Include="Results\UpdateAdultPatientRequest.cs" />
+    <Compile Include="Results\UpdateEmployeeResult.cs" />
     <Compile Include="Results\UpdateMachineLearningModelResult.cs" />
     <Compile Include="ViewModel\AddAnthropometryOfPatientsVM.cs" />
     <Compile Include="ViewModel\AddLifestyleVM.cs" />
     <Compile Include="ViewModel\AddNewAddressVM.cs" />
     <Compile Include="ViewModel\AddNewDataLearningVM.cs" />
+    <Compile Include="ViewModel\AddNewEmployeeVM.cs" />
     <Compile Include="ViewModel\AddNewPatientVM.cs" />
     <Compile Include="ViewModel\AdultPatientProfileVM.cs" />
     <Compile Include="ViewModel\CounSSZResultVM.cs" />
@@ -305,6 +311,9 @@
     </Compile>
     <Compile Include="View\AddNewDataLearningView.xaml.cs">
       <DependentUpon>AddNewDataLearningView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddNewEmployeeView.xaml.cs">
+      <DependentUpon>AddNewEmployeeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AddNewPatientView.xaml.cs">
       <DependentUpon>AddNewPatientView.xaml</DependentUpon>
@@ -375,6 +384,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddNewDataLearningView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddNewEmployeeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

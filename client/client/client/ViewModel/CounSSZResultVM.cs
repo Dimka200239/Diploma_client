@@ -5,6 +5,7 @@ using client.View;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Win32;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -171,6 +172,7 @@ namespace client.ViewModel
         private void CreateWordDocument(string filepath)
         {
             string predictionText = "";
+            string dateTimeNow = DateTime.UtcNow.ToString("dd.MM.yyyy");
 
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(filepath, DocumentFormat.OpenXml.WordprocessingDocumentType.Document))
             {
@@ -181,6 +183,7 @@ namespace client.ViewModel
 
                 // Add content to the document
                 AddParagraph(body, "РЕЗУЛЬТАТЫ ОЦЕНКИ ОБЩЕГО СОСТОЯНИЯ ЗДОРОВЬЯ", true, true, 0, 12, 0, -1.5, -0.5);
+                AddParagraph(body, $"Дата выдачи: {dateTimeNow}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"ФИО: {_patientWithAddressItemList.AdultPatient.GetFullName}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"Возраст: {_anthropometryOfPatient.Age}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"Адрес проживания: {_patientWithAddressItemList.Address.GetFullAddress}", false, false, 0, 0, 0, -1.5, 0);

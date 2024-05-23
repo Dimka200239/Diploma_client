@@ -20,7 +20,6 @@ namespace client.ViewModel
         private string _addNewEmployeeText;
         private string _addNewDataLearningText;
         private string _updateMathModelText;
-        private string _settingsText;
         private string _exitText;
 
         private bool _isDimmed;
@@ -36,7 +35,6 @@ namespace client.ViewModel
         public ICommand AddNewEmployeeWindowCommand { get; }
         public ICommand AddNewDataLearningWindowCommand { get; }
         public ICommand UpdateMathModelWindowCommand { get; }
-        public ICommand SettingsClickCommand { get; }
         public ICommand ExitClickCommand { get; }
 
         public MainAdminMenuVM(Employee employee, Frame mainFrame, Frame mainMenuFrame, Window mainWindow)
@@ -56,7 +54,6 @@ namespace client.ViewModel
             AddNewEmployeeWindowCommand = new RelayCommand(AddNewEmployeeWindow);
             AddNewDataLearningWindowCommand = new RelayCommand(AddNewDataLearningWindow);
             UpdateMathModelWindowCommand = new RelayCommand(UpdateMathModelWindow);
-            SettingsClickCommand = new RelayCommand(SettingsClick);
             ExitClickCommand = new RelayCommand(ExitClick);
 
             _mainMenuFrame.Content = new AddNewDataLearningView();
@@ -133,16 +130,6 @@ namespace client.ViewModel
             }
         }
 
-        public string SettingsText
-        {
-            get { return _settingsText; }
-            set
-            {
-                _settingsText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SettingsText)));
-            }
-        }
-
         public string ExitText
         {
             get { return _exitText; }
@@ -184,7 +171,6 @@ namespace client.ViewModel
                 AddNewEmployeeText = "Добавить нового сотрудника";
                 AddNewDataLearningText = "Добавить данные для обучения модели";
                 UpdateMathModelText = "Переобучить модель";
-                SettingsText = "Настройки";
                 ExitText = "Выйти";
                 MenuButtonsIsEnabled = "Visible";
                 IsDimmed = !IsDimmed;
@@ -197,6 +183,7 @@ namespace client.ViewModel
 
         private void AddNewEmployeeWindow(object parameter)
         {
+            _mainMenuFrame.Content = new AddNewEmployeeView();
             CloseSection();
         }
 
@@ -209,11 +196,6 @@ namespace client.ViewModel
         private void UpdateMathModelWindow(object parameter)
         {
             _mainMenuFrame.Content = new UpdateMathModelView(_mainWindow);
-            CloseSection();
-        }
-
-        private void SettingsClick(object parameter)
-        {
             CloseSection();
         }
 
@@ -240,7 +222,6 @@ namespace client.ViewModel
             AddNewEmployeeText = "";
             AddNewDataLearningText = "";
             UpdateMathModelText = "";
-            SettingsText = "";
             ExitText = "";
             MenuButtonsIsEnabled = "Collapsed";
             IsDimmed = !IsDimmed;

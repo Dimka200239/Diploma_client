@@ -240,6 +240,14 @@ namespace client.ViewModel
 
         private void Count(object parameter)
         {
+            if (Cholesterol is null || Cholesterol.Equals("") ||
+                Triglycerides is null || Triglycerides.Equals("") ||
+                LDL is null || LDL.Equals(""))
+            {
+                MessageBox.Show("Вы не заполнили все необходимые поля!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             HDL = Math.Round(float.Parse(Cholesterol, culture) - (float.Parse(LDL, culture) + (float.Parse(Triglycerides, culture) / 2.2)), 2).ToString();
             VLDL = Math.Round(float.Parse(Triglycerides, culture) / 2.2, 2).ToString();
             AtherogenicCoefficient = Math.Round((float.Parse(VLDL, culture) + float.Parse(LDL, culture)) / float.Parse(HDL, culture), 2).ToString();
@@ -286,8 +294,6 @@ namespace client.ViewModel
 
                     if (createBloodAnalysisResult.Success == true)
                     {
-                        MessageBox.Show("Новый анализ успешно добавлен!", "Успешное добавление", MessageBoxButton.OK, MessageBoxImage.Information);
-
                         _bloodAnalysis = createBloodAnalysisResult.BloodAnalysis;
 
                         var getLastVersionResponse = await client.GetAsync($"/api/machineLearningModel/getLastVersion");
@@ -352,13 +358,45 @@ namespace client.ViewModel
                                         }
                                     }
 
+                                    var createDataForFutureLearningRequest = new CreateDataForFutureLearningRequest
+                                    {
+                                        Gender = _patientWithAddressItemList.AdultPatient.Gender,
+                                        Age = _anthropometryOfPatient.Age,
+                                        SmokeCigarettes = _lifestyle.SmokeCigarettes,
+                                        DrinkAlcohol = _lifestyle.DrinkAlcohol,
+                                        Sport = _lifestyle.Sport,
+                                        AmountOfCholesterol = _bloodAnalysis.AmountOfCholesterol,
+                                        HDL = _bloodAnalysis.HDL,
+                                        LDL = _bloodAnalysis.LDL,
+                                        AtherogenicityCoefficient = _bloodAnalysis.AtherogenicityCoefficient,
+                                        WHI = _bloodAnalysis.WHI,
+                                        HasCVD = (int)predictedResults[0].Prediction
+                                    };
+
+                                    var createDataForFutureLearningResponse = await client.PostAsJsonAsync($"/api/dataForFutureLearning/createDataForFutureLearning", createDataForFutureLearningRequest);
+
+                                    if (createDataForFutureLearningResponse.IsSuccessStatusCode)
+                                    {
+                                        string createDataForFutureLearningResponseContent = await createDataForFutureLearningResponse.Content.ReadAsStringAsync();
+                                        var createDataForFutureLearningResult = JsonConvert.DeserializeObject<CreateDataForFutureLearningResult>(createDataForFutureLearningResponseContent);
+
+                                        if (createDataForFutureLearningResult.Success == true)
+                                        {
+                                            MessageBox.Show("Новый анализ успешно добавлен!", "Успешное добавление", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show(createDataForFutureLearningResult.Errors[0], "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        }
+                                    }
+
                                     _mainMenuFrame.Content = new CounSSZResultView(predictedResults[0],
-                                        lastCorrelationValueResult,
-                                        _patientWithAddressItemList,
-                                        _anthropometryOfPatient,
-                                        _lifestyle,
-                                        _bloodAnalysis,
-                                        _mainMenuFrame);
+                                    lastCorrelationValueResult,
+                                    _patientWithAddressItemList,
+                                    _anthropometryOfPatient,
+                                    _lifestyle,
+                                    _bloodAnalysis,
+                                    _mainMenuFrame);
                                 }
                             }
                             else

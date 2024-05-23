@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:client.View"
         mc:Ignorable="d"
         Title=""
-        MinHeight="720"
+        MinHeight="750"
         MinWidth="1280"
-        Height="720"
+        Height="750"
         Width="1280">
     <Frame Name="MainFrame"
            Background="White"

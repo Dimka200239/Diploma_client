@@ -131,6 +131,8 @@
         Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="10px"/>
+            <RowDefinition Height="30px"/>
+            <RowDefinition Height="5px"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="10px"/>
             <RowDefinition Height="40px"/>
@@ -141,8 +143,90 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10px"/>
         </Grid.ColumnDefinitions>
-        <Button Template="{DynamicResource RoundedButtonStyle}"
+        <Grid
             Grid.Row="3"
+            Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="5px"/>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="5px"/>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="5px"/>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="5px"/>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="5px"/>
+                <RowDefinition Height="30px"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175px"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Text="ДАННЫЕ О ПОСЛЕДНЕЙ ВЕРСИИ МОДЕЛИ"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="ДАННЫЕ О ПОСЛЕДНЕЙ ВЕРСИИ СТАТИСТИКИ"
+                Grid.Row="6"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="Дата сохранения:"
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="Кол-во строк данных:"
+                Grid.Row="4"
+                Grid.Column="0"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="Дата сохранения:"
+                Grid.Row="8"
+                Grid.Column="0"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBlock
+                Text="Кол-во строк данных:"
+                Grid.Row="10"
+                Grid.Column="0"
+                Style="{StaticResource LoginAndPasswordTextBlockStyle}"/>
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0 5 0 5"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxStyle}"
+                Text="{Binding MLDate, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="0 5 0 5"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxStyle}"
+                Text="{Binding MLCount, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox
+                Grid.Row="8"
+                Grid.Column="1"
+                Margin="0 5 0 5"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxStyle}"
+                Text="{Binding CorelationDate, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox
+                Grid.Row="10"
+                Grid.Column="1"
+                Margin="0 5 0 5"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxStyle}"
+                Text="{Binding CorelationCount, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="5"
             Grid.Column="1"
             Width="160px"
             Content="Переобучить модель"
@@ -150,5 +234,14 @@
             HorizontalAlignment="Right"
             Style="{StaticResource LoginAndRegButtonStyle}"
             Command="{Binding UpdateModelCommand}"/>
+        <Button Template="{DynamicResource RoundedButtonStyle}"
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="450px"
+            Content="Обновить статистику о важности параметров на новых данных"
+            Margin="5 5 0 5"
+            HorizontalAlignment="Left"
+            Style="{StaticResource LoginAndRegButtonStyle}"
+            Command="{Binding UpdateCorelationCommand}"/>
     </Grid>
 </Page>

@@ -208,19 +208,6 @@
         </Button>
         <Button
             Style="{StaticResource BoardInteraction}"
-            Command="{Binding SettingsClickCommand}"
-            Width="{Binding MenuButtonWidth}"
-            Height="45px"
-            HorizontalAlignment="{Binding MenuButtonHorizontalAlignment}"
-            VerticalAlignment="Top"
-            BorderThickness="0px"
-            Grid.Column="0"
-            Grid.Row="10"
-            Content="{Binding SettingsText}"
-            Visibility="{Binding MenuButtonsIsEnabled}">
-        </Button>
-        <Button
-            Style="{StaticResource BoardInteraction}"
             Command="{Binding ExitClickCommand}"
             Width="{Binding MenuButtonWidth}"
             Height="45px"
