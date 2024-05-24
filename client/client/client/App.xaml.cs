@@ -3,6 +3,9 @@ using System;
 using System.IO;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace client
 {
@@ -27,6 +30,15 @@ namespace client
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             Configuration = builder.Build();
+
+            // Добавляем обработчик проверки сертификатов
+            ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
+        }
+
+        private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            // Всегда возвращаем true, что означает доверие к сертификату
+            return true;
         }
     }
 }
