@@ -160,12 +160,6 @@
                 Content="Войти"
                 Style="{StaticResource LoginAndRegButtonStyle}"
                 Command="{Binding LoginCommand}"/>
-            <Button Template="{DynamicResource RecoverAndRegButtonStyle}"
-                Content="Восстановить"
-                Grid.Row="3"
-                Grid.Column="1"
-                HorizontalAlignment="Left"
-                Style="{StaticResource RecoverAndRegButtonStyle2}"/>
             <CheckBox
                 IsChecked="{Binding RememberMe}"
                 Content="Запомнить меня"

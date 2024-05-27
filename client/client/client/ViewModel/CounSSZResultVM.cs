@@ -2,10 +2,12 @@
 using client.Model;
 using client.Results;
 using client.View;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -187,11 +189,23 @@ namespace client.ViewModel
                 AddParagraph(body, $"ФИО: {_patientWithAddressItemList.AdultPatient.GetFullName}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"Возраст: {_anthropometryOfPatient.Age}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"Адрес проживания: {_patientWithAddressItemList.Address.GetFullAddress}", false, false, 0, 0, 0, -1.5, 0);
+                var hdlResult = GetHDLValue(_anthropometryOfPatient.Age, _patientWithAddressItemList.AdultPatient.Gender);
+                var ldlResult = GetLDLValue(_anthropometryOfPatient.Age, _patientWithAddressItemList.AdultPatient.Gender);
+                var caResult = GetCAValue(_anthropometryOfPatient.Age, _patientWithAddressItemList.AdultPatient.Gender);
+                var whilResult = GetWHIValue(_patientWithAddressItemList.AdultPatient.Gender);
+                var strHdlResult = $"Липопротеиды высокой плотности: {_bloodAnalysis.HDL} (норма: от {hdlResult.Lower} до {hdlResult.Upper})";
+                var strLdlResult = $"Липопротеиды низкой плотности: {_bloodAnalysis.LDL} (норма: от {ldlResult.Lower} до {ldlResult.Upper})";
+                var strCAResult = $"Коэффициент атерогенности: {_bloodAnalysis.AtherogenicityCoefficient} (норма: от {caResult.Lower} до {caResult.Upper})";
+                var strWHIResult = $"Индекс талии/бедра: {_bloodAnalysis.WHI} (норма: от {whilResult.Lower} до {whilResult.Upper})";
+                AddParagraph(body, $"{strHdlResult}", false, false, 0, 0, 0, -1.5, 0);
+                AddParagraph(body, $"{strLdlResult}", false, false, 0, 0, 0, -1.5, 0);
+                AddParagraph(body, $"{strCAResult}", false, false, 0, 0, 0, -1.5, 0);
+                AddParagraph(body, $"{strWHIResult}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"Класс риска развития ССЗ: {_healthPrediction.Prediction}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, "РАСШИФРОВКА РЕЗУЛЬТАТОВ", true, true, 18, 12, 0, -1.5, -0.5);
                 AddParagraph(body, $"Класс риска развития у вас равен {_healthPrediction.Prediction}. Это означает, что {predictionText} ", false, false, 0, 2, 1.25, -1.5, 0);
                 AddParagraph(body, $"По статистике для среднестатистического человека наиболее важными параметрами, " +
-                    $"которые в большей степени влияют на риск развития ССЗ, являются: {CorrelationText} поэтому советуем в первую " +
+                    $"которые в большей степени влияют на риск развития ССЗ, являются: {CorrelationText}, поэтому советуем в первую " +
                     $"очередь следить за этими показателями.", false, false, 0, 2, 1.25, -1.5, 0);
                 AddParagraph(body, "СОВЕТЫ И РЕКОМЕНДАЦИИ", true, true, 18, 12, 0, -1.5, -0.5);
                 AddParagraph(body, $"Даже если всё плохо, то никогда не поздно всё исправить! {GetRecomendateByClass(_healthPrediction.Prediction)}", false, false, 0, 2, 1.25, -1.5, 0);
@@ -355,13 +369,14 @@ namespace client.ViewModel
                 result = "у вас есть риск развития сердечно-сосудистых заболеваний, связанный с повышенным индексом талии/бедра, " +
                     "повышенным коэффицентом атерогенности и вашим образом жизни. " +
                     "Один из важных показателей при оценке избыточного веса — соотношение окружности талии к окружности бедер. " +
-                    "Особенно опасен жир, наросший на животе и внутри. Абдоминальный жир скапливается вокруг внутренних органов, " +
+                    "Особенно опасен, так называемый абдоминальный жир - отложившийся на животе и внутренних органах, " +
                     "например, печени, мешая их работе и способствуя нарушению обмена веществ. Также чем больше жира на животе, " +
                     "тем больше вероятность развития сердечно-сосудистых проблем, так как жировая ткань в области живота участвует в " +
                     "обмене веществ организма и может способствовать образованию отложений в кровеносных сосудах. " +
                     "Коэффициент атерогенности – отношение \"плохого\" холестерола к \"хорошему\", характеризующее риск развития " +
                     "сердечно-сосудистых заболеваний. Чем больше значение \"плохого\" холестерола и меньше знаечние " +
-                    "\"хорошего\" холестерола, тем больше риск развития ССЗ. " +
+                    "\"хорошего\" холестерола, тем выше риск формирования атерогенных бляшек на поверхности сосудов, что наружает ток крови " +
+                    "и в сочетании с повышенным тромбообразованием может привести к закупориванию сосудов тромбами." +
                     "При выкуривании одной сигареты сердце человека начинает работать в ускоренном ритме, который " +
                     "сохраняется на протяжении 15 минут. Хватает всего нескольких затяжек, чтобы артериальное давление" +
                     "увеличилось на 5%, пульс участился на 14%. Влияние курения на сердечно-сосудистую систему проявляется " +
@@ -370,7 +385,8 @@ namespace client.ViewModel
                     "Попавший в кровь этанол на протяжении 5-7 часов заставляет сердце работать с повышенной нагрузкой. " +
                     "Пагубное влияние алкоголя на сердечно-сосудистую систему связано с учащением сердцебиения, " +
                     "повышением кровяного давления и нарушением кровообращения. На сосуды алкоголь действует двухфазно: " +
-                    "сначала сильно расширяет, а потом сужает. Это приводит к чрезмерным нагрузкам на сердце и нарушению его работы.";
+                    "сначала сильно расширяет, а потом сужает. Это приводит к чрезмерным нагрузкам на сердце и нарушению его работы. " +
+                    "Все эти факторы в сочетании приводят к возникновению ишемической болезни сердца, инфаркта, инсульта.";
             }
 
             return result;
@@ -385,7 +401,7 @@ namespace client.ViewModel
                 result += "Для того, чтобы понизить индекс талии/бедра, необходимо соблюдать диету и активно заниматься спортом. " +
                     "Стараться исключить из своего рациона или свести к минимому употребление мучного, сладкого, жирной и вредной пищи. " +
                     "Почаще заниматься активным отдыхом: прогулки, легкие пробежки, поездки на природу/в походы. Стараться не упортреблять " +
-                    "тяжелую пищу в позднее время перед сном, так как любая такая пища уходит в лишний вес. ";
+                    "тяжелую пищу в позднее время перед сном, так как это неизбежно уходит в лишний вес. ";
             }
             if (prediction == 2 || prediction == 4 || prediction == 6 || prediction == 7)
             {
@@ -394,7 +410,8 @@ namespace client.ViewModel
                     "жирных молочных продуктов и полуфабрикатов); добавить в рацион пищевые волокна (овсянка, фрукты, овощи и бобовые); " +
                     "избегать транс жиров (выпечка, фастфуд); регулярно заниматься физической активностью, такие как ходьба, бег, плавание " +
                     "или езда на велосипеде; отказаться от курения; оргничить употребление алкоголя; управлять стрессом, практики релаксации, " +
-                    "такие как йога, медитация или глубокое дыхание, могут помочь снизить уровень стресса и улучшить показатели холестерина. ";
+                    "такие как йога, медитация или глубокое дыхание, могут помочь снизить уровень стресса и улучшить состояние сердечно-сосудистой " +
+                    "системы. ";
             }
             if (prediction == 3 || prediction == 5 || prediction == 6 || prediction == 7)
             {
@@ -402,7 +419,7 @@ namespace client.ViewModel
                     "жизни влияет на состояние здоровья человека. В среднем около 20% людей, ведущих нездоровый образ жизни, умирают от " +
                     "ишемической болезни сердца. Чтобы эффективнее бросить курить, используйте антистрессовые игрушки, карандаши или эспандеры; кушайте " +
                     "жвачки без сахара, морковные палочки, орехи, семечки. Чтобы эффективнее бросить употребление алкоголя, заменйяте его на " +
-                    "вкусные и полезные напитки, которые можно приготовить дома (овощные соки, смузи), а также чай. ";
+                    "вкусные и полезные напитки, которые можно приготовить дома (овощные соки, смузи, а также чай). ";
             }
 
             result += "Здоровье любого человека – это его счастье и богатство. Поддерживать его важно: не иметь вредных привычек, " +
@@ -411,5 +428,137 @@ namespace client.ViewModel
 
             return result;
         }
+
+        private UpperAndLowerBounds GetHDLValue(int age, string gender)
+        {
+            var dictionary = new Dictionary<AgeAndGender, UpperAndLowerBounds>();
+
+            dictionary.Add(new AgeAndGender(20, "male"), new UpperAndLowerBounds(0.78, 1.63));
+            dictionary.Add(new AgeAndGender(20, "female"), new UpperAndLowerBounds(0.91, 1.91));
+            dictionary.Add(new AgeAndGender(25, "male"), new UpperAndLowerBounds(0.78, 1.63));
+            dictionary.Add(new AgeAndGender(25, "female"), new UpperAndLowerBounds(0.85, 2.04));
+            dictionary.Add(new AgeAndGender(30, "male"), new UpperAndLowerBounds(0.80, 1.63));
+            dictionary.Add(new AgeAndGender(30, "female"), new UpperAndLowerBounds(0.96, 2.15));
+            dictionary.Add(new AgeAndGender(35, "male"), new UpperAndLowerBounds(0.72, 1.63));
+            dictionary.Add(new AgeAndGender(35, "female"), new UpperAndLowerBounds(0.93, 1.99));
+            dictionary.Add(new AgeAndGender(40, "male"), new UpperAndLowerBounds(0.75, 1.60));
+            dictionary.Add(new AgeAndGender(40, "female"), new UpperAndLowerBounds(0.88, 2.12));
+            dictionary.Add(new AgeAndGender(45, "male"), new UpperAndLowerBounds(0.70, 1.73));
+            dictionary.Add(new AgeAndGender(45, "female"), new UpperAndLowerBounds(0.88, 2.28));
+            dictionary.Add(new AgeAndGender(50, "male"), new UpperAndLowerBounds(0.78, 1.66));
+            dictionary.Add(new AgeAndGender(50, "female"), new UpperAndLowerBounds(0.88, 2.25));
+            dictionary.Add(new AgeAndGender(55, "male"), new UpperAndLowerBounds(0.72, 1.63));
+            dictionary.Add(new AgeAndGender(55, "female"), new UpperAndLowerBounds(0.96, 2.38));
+            dictionary.Add(new AgeAndGender(60, "male"), new UpperAndLowerBounds(0.72, 1.84));
+            dictionary.Add(new AgeAndGender(60, "female"), new UpperAndLowerBounds(0.96, 2.35));
+            dictionary.Add(new AgeAndGender(200, "male"), new UpperAndLowerBounds(0.78, 1.91));
+            dictionary.Add(new AgeAndGender(200, "female"), new UpperAndLowerBounds(0.98, 2.38));
+
+            foreach (var pair in dictionary)
+            {
+                if (age <= pair.Key.Age && pair.Key.Gender.Equals(gender))
+                {
+                    return pair.Value;
+                }
+            }
+
+            return null;
+        }
+
+        private UpperAndLowerBounds GetLDLValue(int age, string gender)
+        {
+            var dictionary = new Dictionary<AgeAndGender, UpperAndLowerBounds>();
+
+            dictionary.Add(new AgeAndGender(20, "male"), new UpperAndLowerBounds(1.67, 3.37));
+            dictionary.Add(new AgeAndGender(20, "female"), new UpperAndLowerBounds(1.53, 3.55));
+            dictionary.Add(new AgeAndGender(25, "male"), new UpperAndLowerBounds(1.71, 3.81));
+            dictionary.Add(new AgeAndGender(25, "female"), new UpperAndLowerBounds(1.48, 4.12));
+            dictionary.Add(new AgeAndGender(30, "male"), new UpperAndLowerBounds(1.81, 4.27));
+            dictionary.Add(new AgeAndGender(30, "female"), new UpperAndLowerBounds(1.84, 4.25));
+            dictionary.Add(new AgeAndGender(35, "male"), new UpperAndLowerBounds(2.02, 4.79));
+            dictionary.Add(new AgeAndGender(35, "female"), new UpperAndLowerBounds(1.81, 4.04));
+            dictionary.Add(new AgeAndGender(40, "male"), new UpperAndLowerBounds(2.10, 4.90));
+            dictionary.Add(new AgeAndGender(40, "female"), new UpperAndLowerBounds(1.94, 4.45));
+            dictionary.Add(new AgeAndGender(45, "male"), new UpperAndLowerBounds(1.25, 4.82));
+            dictionary.Add(new AgeAndGender(45, "female"), new UpperAndLowerBounds(1.92, 4.51));
+            dictionary.Add(new AgeAndGender(50, "male"), new UpperAndLowerBounds(2.51, 5.23));
+            dictionary.Add(new AgeAndGender(50, "female"), new UpperAndLowerBounds(2.05, 4.82));
+            dictionary.Add(new AgeAndGender(55, "male"), new UpperAndLowerBounds(2.31, 5.10));
+            dictionary.Add(new AgeAndGender(55, "female"), new UpperAndLowerBounds(2.28, 5.21));
+            dictionary.Add(new AgeAndGender(60, "male"), new UpperAndLowerBounds(2.28, 5.26));
+            dictionary.Add(new AgeAndGender(60, "female"), new UpperAndLowerBounds(2.59, 5.80));
+            dictionary.Add(new AgeAndGender(200, "male"), new UpperAndLowerBounds(2.54, 5.44));
+            dictionary.Add(new AgeAndGender(200, "female"), new UpperAndLowerBounds(2.38, 5.72));
+
+            foreach (var pair in dictionary)
+            {
+                if (age <= pair.Key.Age && pair.Key.Gender.Equals(gender))
+                {
+                    return pair.Value;
+                }
+            }
+
+            return null;
+        }
+
+        private UpperAndLowerBounds GetCAValue(int age, string gender)
+        {
+            var dictionary = new Dictionary<AgeAndGender, UpperAndLowerBounds>();
+
+            dictionary.Add(new AgeAndGender(30, "male"), new UpperAndLowerBounds(0.00, 2.20));
+            dictionary.Add(new AgeAndGender(30, "female"), new UpperAndLowerBounds(0.00, 2.50));
+            dictionary.Add(new AgeAndGender(40, "male"), new UpperAndLowerBounds(1.80, 4.40));
+            dictionary.Add(new AgeAndGender(40, "female"), new UpperAndLowerBounds(2.00, 4.92));
+            dictionary.Add(new AgeAndGender(60, "male"), new UpperAndLowerBounds(0.00, 3.20));
+            dictionary.Add(new AgeAndGender(60, "female"), new UpperAndLowerBounds(0.00, 3.50));
+            dictionary.Add(new AgeAndGender(200, "male"), new UpperAndLowerBounds(0.00, 3.30));
+            dictionary.Add(new AgeAndGender(200, "female"), new UpperAndLowerBounds(0.00, 3.40));
+
+            foreach (var pair in dictionary)
+            {
+                if (age <= pair.Key.Age && pair.Key.Gender.Equals(gender))
+                {
+                    return pair.Value;
+                }
+            }
+
+            return null;
+        }
+
+        private UpperAndLowerBounds GetWHIValue(string gender)
+        {
+            if (gender.Equals("male"))
+            {
+                return new UpperAndLowerBounds(0.9, 1.00);
+            }
+            else
+            {
+                return new UpperAndLowerBounds(0.85, 0.90);
+            }
+        }
+    }
+
+    public class AgeAndGender
+    {
+        public AgeAndGender(int age, string gender)
+        {
+            Age = age;
+            Gender = gender;
+        }
+
+        public int Age { get; set; }
+        public string Gender { get; set; }
+    }
+
+    public class UpperAndLowerBounds
+    {
+        public UpperAndLowerBounds(double lower, double upper)
+        {
+            Upper = upper;
+            Lower = lower;
+        }
+
+        public double Upper {  get; set; }
+        public double Lower {  get; set; }
     }
 }
