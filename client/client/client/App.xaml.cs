@@ -25,8 +25,14 @@ namespace client
 
             _instance = this;
 
+            var currentDirectory = Directory.GetCurrentDirectory();
+            for (int i = 0; i < 3; i++)
+            {
+                currentDirectory = Directory.GetParent(currentDirectory).FullName;
+            }
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory() + "\\..\\..")
+                .SetBasePath(currentDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             Configuration = builder.Build();
