@@ -203,12 +203,24 @@ namespace client.ViewModel
                 AddParagraph(body, $"{strWHIResult}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, $"Класс риска развития ССЗ: {_healthPrediction.Prediction}", false, false, 0, 0, 0, -1.5, 0);
                 AddParagraph(body, "РАСШИФРОВКА РЕЗУЛЬТАТОВ", true, true, 18, 12, 0, -1.5, -0.5);
+                if (_healthPrediction.Prediction < 1.0)
+                {
+
+                }
+                else if (_healthPrediction.Prediction >= 1.0 && _healthPrediction.Prediction < 4.0)
+                {
+                    AddParagraph(body, $"Вам следует обратиться к специалистам, чтобы получить более детальные рекомендации по улучшению вашего здоровья. ", false, false, 0, 2, 1.25, -1.5, 0);
+                }
+                else if (_healthPrediction.Prediction >= 4.0 && _healthPrediction.Prediction < 8.0)
+                {
+                    AddParagraph(body, $"Вам срочно требуется обратиться к специалистам, вы находитесь в группе риска! ", true, false, 0, 2, 1.25, -1.5, 0);
+                }
                 AddParagraph(body, $"Класс риска развития у вас равен {_healthPrediction.Prediction}. Это означает, что {predictionText} ", false, false, 0, 2, 1.25, -1.5, 0);
                 AddParagraph(body, $"По статистике для среднестатистического человека наиболее важными параметрами, " +
                     $"которые в большей степени влияют на риск развития ССЗ, являются: {CorrelationText}, поэтому советуем в первую " +
                     $"очередь следить за этими показателями.", false, false, 0, 2, 1.25, -1.5, 0);
                 AddParagraph(body, "СОВЕТЫ И РЕКОМЕНДАЦИИ", true, true, 18, 12, 0, -1.5, -0.5);
-                AddParagraph(body, $"Даже если всё плохо, то никогда не поздно всё исправить! {GetRecomendateByClass(_healthPrediction.Prediction)}", false, false, 0, 2, 1.25, -1.5, 0);
+                AddParagraph(body, $"{GetRecomendateByClass(_healthPrediction.Prediction)}", false, false, 0, 2, 1.25, -1.5, 0);
             }
 
             MessageBox.Show("Документ успешно сохранен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
